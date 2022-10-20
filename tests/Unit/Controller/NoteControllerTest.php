@@ -3,16 +3,16 @@ declare(strict_types=1);
 // SPDX-FileCopyrightText: Bruno Alfred <hello@brunoalfred.me>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-namespace OCA\TwigacloudSingup\Tests\Unit\Controller;
+namespace OCA\TwigacloudSignup\Tests\Unit\Controller;
 
 use PHPUnit\Framework\TestCase;
 
 use OCP\AppFramework\Http;
 use OCP\IRequest;
 
-use OCA\TwigacloudSingup\Service\NoteNotFound;
-use OCA\TwigacloudSingup\Service\NoteService;
-use OCA\TwigacloudSingup\Controller\NoteController;
+use OCA\TwigacloudSignup\Service\NoteNotFound;
+use OCA\TwigacloudSignup\Service\NoteService;
+use OCA\TwigacloudSignup\Controller\NoteController;
 
 class NoteControllerTest extends TestCase {
 	protected NoteController $controller;

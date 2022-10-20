@@ -3,15 +3,15 @@ declare(strict_types=1);
 // SPDX-FileCopyrightText: Bruno Alfred <hello@brunoalfred.me>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-namespace OCA\TwigacloudSingup\Service;
+namespace OCA\TwigacloudSignup\Service;
 
 use Exception;
 
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 
-use OCA\TwigacloudSingup\Db\Note;
-use OCA\TwigacloudSingup\Db\NoteMapper;
+use OCA\TwigacloudSignup\Db\Note;
+use OCA\TwigacloudSignup\Db\NoteMapper;
 
 class NoteService {
 	private NoteMapper $mapper;

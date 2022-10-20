@@ -3,7 +3,7 @@ declare(strict_types=1);
 // SPDX-FileCopyrightText: Bruno Alfred <hello@brunoalfred.me>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-namespace OCA\TwigacloudSingup\Migration;
+namespace OCA\TwigacloudSignup\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
@@ -22,8 +22,8 @@ class Version000000Date20181013124731 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		if (!$schema->hasTable('twigacloudsingup')) {
-			$table = $schema->createTable('twigacloudsingup');
+		if (!$schema->hasTable('twigacloudsignup')) {
+			$table = $schema->createTable('twigacloudsignup');
 			$table->addColumn('id', 'integer', [
 				'autoincrement' => true,
 				'notnull' => true,
@@ -42,7 +42,7 @@ class Version000000Date20181013124731 extends SimpleMigrationStep {
 			]);
 
 			$table->setPrimaryKey(['id']);
-			$table->addIndex(['user_id'], 'twigacloudsingup_user_id_index');
+			$table->addIndex(['user_id'], 'twigacloudsignup_user_id_index');
 		}
 		return $schema;
 	}

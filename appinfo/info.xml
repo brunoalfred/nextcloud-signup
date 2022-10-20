@@ -5,8 +5,8 @@
     SPDX-FileCopyrightText: Bruno Alfred <hello@brunoalfred.me>
     SPDX-License-Identifier: CC0-1.0
     -->
-    <id>twigacloud_singup</id>
-    <name>Twigacloud Singup</name>
+    <id>twigacloud_signup</id>
+    <name>Twigacloud Signup</name>
     <summary>This app allows users to register a new account using phone number.</summary>
     <description><![CDATA[1. User enters their phone number
 2. Verification code is sent to the phone number
@@ -16,7 +16,7 @@
     <version>0.0.1</version>
     <licence>agpl</licence>
     <author mail="hello@brunoalfred.me" homepage="https://brunoalfred.me">Bruno Alfred</author>
-    <namespace>TwigacloudSingup</namespace>
+    <namespace>TwigacloudSignup</namespace>
     <category>tools</category>
     <bugs>https://github.com/brunoalfred/twigacloud_signup/issues</bugs>
     <dependencies>
@@ -24,8 +24,8 @@
     </dependencies>
     <navigations>
         <navigation>
-            <name>Twigacloud Singup</name>
-            <route>twigacloudsingup.page.index</route>
+            <name>Twigacloud Signup</name>
+            <route>twigacloudsignup.page.index</route>
         </navigation>
     </navigations>
 </info>

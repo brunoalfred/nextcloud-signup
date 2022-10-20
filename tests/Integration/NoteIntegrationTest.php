@@ -3,15 +3,15 @@ declare(strict_types=1);
 // SPDX-FileCopyrightText: Bruno Alfred <hello@brunoalfred.me>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-namespace OCA\TwigacloudSingup\Tests\Integration\Controller;
+namespace OCA\TwigacloudSignup\Tests\Integration\Controller;
 
 use OCP\AppFramework\App;
 use OCP\IRequest;
 use PHPUnit\Framework\TestCase;
 
-use OCA\TwigacloudSingup\Db\Note;
-use OCA\TwigacloudSingup\Db\NoteMapper;
-use OCA\TwigacloudSingup\Controller\NoteController;
+use OCA\TwigacloudSignup\Db\Note;
+use OCA\TwigacloudSignup\Db\NoteMapper;
+use OCA\TwigacloudSignup\Controller\NoteController;
 
 class NoteIntegrationTest extends TestCase {
 	private NoteController $controller;
@@ -19,7 +19,7 @@ class NoteIntegrationTest extends TestCase {
 	private string $userId = 'john';
 
 	public function setUp(): void {
-		$app = new App('twigacloudsingup');
+		$app = new App('twigacloudsignup');
 		$container = $app->getContainer();
 
 		// only replace the user id

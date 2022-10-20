@@ -3,18 +3,18 @@
     SPDX-FileCopyrightText: Bruno Alfred <hello@brunoalfred.me>
     SPDX-License-Identifier: AGPL-3.0-or-later
     -->
-	<div id="content" class="app-twigacloudsingup">
+	<div id="content" class="app-twigacloudsignup">
 		<AppNavigation>
 			<AppNavigationNew v-if="!loading"
-				:text="t('twigacloudsingup', 'New note')"
+				:text="t('twigacloudsignup', 'New note')"
 				:disabled="false"
-				button-id="new-twigacloudsingup-button"
+				button-id="new-twigacloudsignup-button"
 				button-class="icon-add"
 				@click="newNote" />
 			<ul>
 				<AppNavigationItem v-for="note in notes"
 					:key="note.id"
-					:title="note.title ? note.title : t('twigacloudsingup', 'New note')"
+					:title="note.title ? note.title : t('twigacloudsignup', 'New note')"
 					:class="{active: currentNoteId === note.id}"
 					@click="openNote(note)">
 					<template slot="actions">
@@ -22,13 +22,13 @@
 							icon="icon-close"
 							@click="cancelNewNote(note)">
 							{{
-							t('twigacloudsingup', 'Cancel note creation') }}
+							t('twigacloudsignup', 'Cancel note creation') }}
 						</ActionButton>
 						<ActionButton v-else
 							icon="icon-delete"
 							@click="deleteNote(note)">
 							{{
-							 t('twigacloudsingup', 'Delete note') }}
+							 t('twigacloudsignup', 'Delete note') }}
 						</ActionButton>
 					</template>
 				</AppNavigationItem>
@@ -43,14 +43,14 @@
 				<textarea ref="content" v-model="currentNote.content" :disabled="updating" />
 				<input type="button"
 					class="primary"
-					:value="t('twigacloudsingup', 'Save')"
+					:value="t('twigacloudsignup', 'Save')"
 					:disabled="updating || !savePossible"
 					@click="saveNote">
 			</div>
 			<div v-else id="emptycontent">
 				<div class="icon-file" />
 				<h2>{{
-				 t('twigacloudsingup', 'Create a note to get started') }}</h2>
+				 t('twigacloudsignup', 'Create a note to get started') }}</h2>
 			</div>
 		</AppContent>
 	</div>
@@ -110,7 +110,7 @@ export default {
 	 */
 	async mounted() {
 		try {
-			const response = await axios.get(generateUrl('/apps/twigacloudsingup/notes'))
+			const response = await axios.get(generateUrl('/apps/twigacloudsignup/notes'))
 			this.notes = response.data
 		} catch (e) {
 			console.error(e)
@@ -176,7 +176,7 @@ export default {
 		async createNote(note) {
 			this.updating = true
 			try {
-				const response = await axios.post(generateUrl('/apps/twigacloudsingup/notes'), note)
+				const response = await axios.post(generateUrl('/apps/twigacloudsignup/notes'), note)
 				const index = this.notes.findIndex((match) => match.id === this.currentNoteId)
 				this.$set(this.notes, index, response.data)
 				this.currentNoteId = response.data.id
@@ -193,7 +193,7 @@ export default {
 		async updateNote(note) {
 			this.updating = true
 			try {
-				await axios.put(generateUrl(`/apps/twigacloudsingup/notes/${note.id}`), note)
+				await axios.put(generateUrl(`/apps/twigacloudsignup/notes/${note.id}`), note)
 			} catch (e) {
 				console.error(e)
 				showError(t('notestutorial', 'Could not update the note'))
@@ -206,15 +206,15 @@ export default {
 		 */
 		async deleteNote(note) {
 			try {
-				await axios.delete(generateUrl(`/apps/twigacloudsingup/notes/${note.id}`))
+				await axios.delete(generateUrl(`/apps/twigacloudsignup/notes/${note.id}`))
 				this.notes.splice(this.notes.indexOf(note), 1)
 				if (this.currentNoteId === note.id) {
 					this.currentNoteId = null
 				}
-				showSuccess(t('twigacloudsingup', 'Note deleted'))
+				showSuccess(t('twigacloudsignup', 'Note deleted'))
 			} catch (e) {
 				console.error(e)
-				showError(t('twigacloudsingup', 'Could not delete the note'))
+				showError(t('twigacloudsignup', 'Could not delete the note'))
 			}
 		},
 	},

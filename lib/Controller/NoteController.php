@@ -3,10 +3,10 @@ declare(strict_types=1);
 // SPDX-FileCopyrightText: Bruno Alfred <hello@brunoalfred.me>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-namespace OCA\TwigacloudSingup\Controller;
+namespace OCA\TwigacloudSignup\Controller;
 
-use OCA\TwigacloudSingup\AppInfo\Application;
-use OCA\TwigacloudSingup\Service\NoteService;
+use OCA\TwigacloudSignup\AppInfo\Application;
+use OCA\TwigacloudSignup\Service\NoteService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;

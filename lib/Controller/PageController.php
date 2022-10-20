@@ -3,9 +3,9 @@ declare(strict_types=1);
 // SPDX-FileCopyrightText: Bruno Alfred <hello@brunoalfred.me>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-namespace OCA\TwigacloudSingup\Controller;
+namespace OCA\TwigacloudSignup\Controller;
 
-use OCA\TwigacloudSingup\AppInfo\Application;
+use OCA\TwigacloudSignup\AppInfo\Application;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IRequest;
@@ -21,7 +21,7 @@ class PageController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index(): TemplateResponse {
-		Util::addScript(Application::APP_ID, 'twigacloudsingup-main');
+		Util::addScript(Application::APP_ID, 'twigacloudsignup-main');
 
 		return new TemplateResponse(Application::APP_ID, 'main');
 	}

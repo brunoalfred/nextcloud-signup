@@ -3,16 +3,16 @@ declare(strict_types=1);
 // SPDX-FileCopyrightText: Bruno Alfred <hello@brunoalfred.me>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-namespace OCA\TwigacloudSingup\Tests\Unit\Service;
+namespace OCA\TwigacloudSignup\Tests\Unit\Service;
 
-use OCA\TwigacloudSingup\Service\NoteNotFound;
+use OCA\TwigacloudSignup\Service\NoteNotFound;
 use PHPUnit\Framework\TestCase;
 
 use OCP\AppFramework\Db\DoesNotExistException;
 
-use OCA\TwigacloudSingup\Db\Note;
-use OCA\TwigacloudSingup\Service\NoteService;
-use OCA\TwigacloudSingup\Db\NoteMapper;
+use OCA\TwigacloudSignup\Db\Note;
+use OCA\TwigacloudSignup\Service\NoteService;
+use OCA\TwigacloudSignup\Db\NoteMapper;
 
 class NoteServiceTest extends TestCase {
 	private NoteService $service;

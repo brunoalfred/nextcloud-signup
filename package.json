@@ -1,11 +1,11 @@
 {
-  "name": "signup",
-  "description": "This app allows users to register a new account using their phone number.",
+  "name": "twigacloudsingup",
+  "description": "This app allows users to register a new account using phone number.",
   "version": "0.0.1",
   "author": "Bruno Alfred <hello@brunoalfred.me>",
   "contributors": [],
   "bugs": {
-    "url": "https://github.com/brunoalfred/signup/issues"
+    "url": "https://github.com/brunoalfred/twigacloud_signup/issues"
   },
   "license": "agpl",
   "private": true,

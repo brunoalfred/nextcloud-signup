@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: Bruno Alfred <hello@brunoalfred.me>
 SPDX-License-Identifier: CC0-1.0
 -->
 
-# Sign Up
+# Twigacloud Singup
 Place this app in **nextcloud/apps/**
 
 ## Building the app

@@ -1,6 +1,6 @@
 {
-	"name": "nextcloud/signup",
-	"description": "This app allows users to register a new account using their phone number.",
+	"name": "nextcloud/twigacloudsingup",
+	"description": "This app allows users to register a new account using phone number.",
 	"type": "project",
 	"license": "AGPL-3.0-or-later",
 	"authors": [

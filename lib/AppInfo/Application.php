@@ -6,11 +6,17 @@ declare(strict_types=1);
 namespace OCA\TwigacloudSignup\AppInfo;
 
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 
 class Application extends App {
 	public const APP_ID = 'twigacloudsignup';
 
 	public function __construct() {
 		parent::__construct(self::APP_ID);
+	}
+
+	public function register(IRegistrationContext $context): void
+	{
+		
 	}
 }

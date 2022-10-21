@@ -1,28 +1,33 @@
 <?php
+
 declare(strict_types=1);
-// SPDX-FileCopyrightText: Bruno Alfred <hello@brunoalfred.me>
-// SPDX-License-Identifier: AGPL-3.0-or-later
+
+/**
+ * ownCloud - twigacloud_signup
+ *
+ * This file is licensed under the Affero General Public License version 3 or
+ * later. See the COPYING file.
+ *
+ * @author Bruno Alfred <hello@brunoalfred.me>
+ * @copyright Bruno Alfred 2022
+ */
 
 namespace OCA\TwigacloudSignup\Controller;
 
-use OCA\TwigacloudSignup\AppInfo\Application;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IRequest;
-use OCP\Util;
 
-class PageController extends Controller {
-	public function __construct(IRequest $request) {
-		parent::__construct(Application::APP_ID, $request);
-	}
+class RegisterController extends Controller
+{
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
-	public function index(): TemplateResponse {
-		Util::addScript(Application::APP_ID, 'twigacloudsignup-main');
-
-		return new TemplateResponse(Application::APP_ID, 'main');
-	}
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     */
+    
+    public function showPhoneForm(): TemplateResponse
+    {
+        return new TemplateResponse('twigacloud_signup', 'form/phone', [], 'guest');
+    }
 }

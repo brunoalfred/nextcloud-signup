@@ -22,10 +22,4 @@
     <dependencies>
         <nextcloud min-version="24" max-version="24"/>
     </dependencies>
-    <navigations>
-        <navigation>
-            <name>Twigacloud Signup</name>
-            <route>twigacloudsignup.page.index</route>
-        </navigation>
-    </navigations>
 </info>

@@ -16,9 +16,17 @@ namespace OCA\TwigacloudSignup\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IRequest;
 
 class RegisterController extends Controller
 {
+
+    public function __construct(string $AppName, IRequest $request)
+    {
+        parent::__construct($AppName, $request);
+    }
+    
+
 
     /**
      * @NoAdminRequired

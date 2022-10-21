@@ -25,7 +25,7 @@ class RegisterController extends Controller
      * @NoCSRFRequired
      * @PublicPage
      */
-    
+
     public function showPhoneForm(): TemplateResponse
     {
         return new TemplateResponse('twigacloud_signup', 'form/phone', [], 'guest');

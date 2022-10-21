@@ -9,7 +9,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 
 class Application extends App {
-	public const APP_ID = 'twigacloudsignup';
+	public const APP_ID = 'twigacloud_signup';
 
 	public function __construct() {
 		parent::__construct(self::APP_ID);
@@ -17,6 +17,6 @@ class Application extends App {
 
 	public function register(IRegistrationContext $context): void
 	{
-		
+
 	}
 }

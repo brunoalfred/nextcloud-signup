@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
-      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <!--
     SPDX-FileCopyrightText: Bruno Alfred <hello@brunoalfred.me>
     SPDX-License-Identifier: CC0-1.0
@@ -8,16 +7,21 @@
     <id>twigacloud_signup</id>
     <name>Twigacloud Signup</name>
     <summary>This app allows users to register a new account using phone number.</summary>
-    <description><![CDATA[1. User enters their phone number
-2. Verification code is sent to the phone number
-3. User can provide the code for verify the phone number provided
-4. User is lead to a form where they can choose their username and password
-5. New account is created and is logged in automatically]]></description>
+    <description>
+        <![CDATA[
+            1. User enters their phone number
+            2. Verification code is sent to the phone number
+            3. User can provide the code for verify the phone number provided
+            4. User is lead to a form where they can choose their username and password
+            5. New account is created and is logged in automatically]
+            ]>
+</description>
     <version>0.0.1</version>
     <licence>agpl</licence>
     <author mail="hello@brunoalfred.me" homepage="https://brunoalfred.me">Bruno Alfred</author>
     <namespace>TwigacloudSignup</namespace>
     <category>tools</category>
+    <category>security</category>
     <bugs>https://github.com/brunoalfred/twigacloud_signup/issues</bugs>
     <dependencies>
         <nextcloud min-version="24" max-version="24"/>

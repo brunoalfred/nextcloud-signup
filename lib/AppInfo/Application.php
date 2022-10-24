@@ -11,7 +11,7 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 
 class Application extends App implements IBootstrap {
-	public const APP_ID = 'twigacloud_signup';
+	public const APP_ID = 'twigacloudsignup';
 
 	public function __construct() {
 		parent::__construct(self::APP_ID);

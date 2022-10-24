@@ -18,7 +18,8 @@
 </description>
     <version>0.0.1</version>
     <licence>agpl</licence>
-    <author mail="hello@brunoalfred.me" homepage="https://brunoalfred.me">Bruno Alfred</author>    
+    <author mail="hello@brunoalfred.me" homepage="https://brunoalfred.me">Bruno Alfred</author>
+    <namespace>TwigacloudSignup</namespace>
     <category>tools</category>
     <category>security</category>
     <bugs>https://github.com/brunoalfred/twigacloud_signup/issues</bugs>

@@ -25,8 +25,6 @@ class RegisterController extends Controller
     {
         parent::__construct($AppName, $request);
     }
-    
-
 
     /**
      * @NoAdminRequired

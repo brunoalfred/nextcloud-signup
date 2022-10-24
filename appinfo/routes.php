@@ -15,5 +15,10 @@ declare(strict_types=1);
 return [
 	'routes' => [
 		['name' => 'register#showPhoneForm', 'url' => '/', 'verb' => 'GET'],
+		['name' => 'register#submitPhoneForm', 'url' => '/', 'verb' => 'POST'],
+		['name' => 'register#showVerificationForm', 'url' => '/verify/{secret}', 'verb' => 'GET'],
+		['name' => 'register#submitVerificationForm', 'url' => '/verify/{secret}', 'verb' => 'POST'],
+		['name' => 'register#showUserForm', 'url' => '/register/{secret}/{token}', 'verb' => 'GET'],
+		['name' => 'register#submitUserForm', 'url' => '/register/{secret}/{token}', 'verb' => 'POST'],
 	]
 ];

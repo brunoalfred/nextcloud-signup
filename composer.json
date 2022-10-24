@@ -28,6 +28,8 @@
     "psalm:fix": "psalm.phar --alter --issues=InvalidReturnType,InvalidNullableReturnType,MissingParamType,InvalidFalsableReturnType"
   },
   "config": {
+    "optimize-autoloader": true,
+    "classmap-authoritative": true,
     "allow-plugins": {
       "composer/package-versions-deprecated": true
     },

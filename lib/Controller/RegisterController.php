@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @copyright Bruno Alfred 2022
  */
 
-namespace OCA\TwigacloudSignup\Controller;
+namespace OCA\Twigacloudsignup\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;

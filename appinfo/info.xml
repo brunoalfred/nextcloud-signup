@@ -19,10 +19,10 @@
     <version>0.0.1</version>
     <licence>agpl</licence>
     <author mail="hello@brunoalfred.me" homepage="https://brunoalfred.me">Bruno Alfred</author>
-    <namespace>TwigacloudSignup</namespace>
+    <namespace>Twigacloudsignup</namespace>
     <category>tools</category>
     <category>security</category>
-    <bugs>https://github.com/brunoalfred/twigacloud_signup/issues</bugs>
+    <bugs>https://github.com/brunoalfred/twigacloudsignup/issues</bugs>
     <dependencies>
         <nextcloud min-version="24" max-version="24"/>
     </dependencies>

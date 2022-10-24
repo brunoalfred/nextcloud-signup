@@ -1,24 +1,27 @@
 <?php
+
 declare(strict_types=1);
 // SPDX-FileCopyrightText: Bruno Alfred <hello@brunoalfred.me>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-namespace OCA\TwigacloudSignup\Tests\Integration\Controller;
+namespace OCA\Twigacloudsignup\Tests\Integration\Controller;
 
 use OCP\AppFramework\App;
 use OCP\IRequest;
 use PHPUnit\Framework\TestCase;
 
-use OCA\TwigacloudSignup\Db\Note;
-use OCA\TwigacloudSignup\Db\NoteMapper;
-use OCA\TwigacloudSignup\Controller\NoteController;
+use OCA\Twigacloudsignup\Db\Note;
+use OCA\Twigacloudsignup\Db\NoteMapper;
+use OCA\Twigacloudsignup\Controller\NoteController;
 
-class NoteIntegrationTest extends TestCase {
+class NoteIntegrationTest extends TestCase
+{
 	private NoteController $controller;
 	private QBMapper $mapper;
 	private string $userId = 'john';
 
-	public function setUp(): void {
+	public function setUp(): void
+	{
 		$app = new App('twigacloudsignup');
 		$container = $app->getContainer();
 
@@ -36,7 +39,8 @@ class NoteIntegrationTest extends TestCase {
 		$this->mapper = $container->get(NoteMapper::class);
 	}
 
-	public function testUpdate(): void {
+	public function testUpdate(): void
+	{
 		// create a new note that should be updated
 		$note = new Note();
 		$note->setTitle('old_title');

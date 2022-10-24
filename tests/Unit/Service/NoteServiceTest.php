@@ -1,32 +1,36 @@
 <?php
+
 declare(strict_types=1);
 // SPDX-FileCopyrightText: Bruno Alfred <hello@brunoalfred.me>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-namespace OCA\TwigacloudSignup\Tests\Unit\Service;
+namespace OCA\Twigacloudsignup\Tests\Unit\Service;
 
-use OCA\TwigacloudSignup\Service\NoteNotFound;
+use OCA\Twigacloudsignup\Service\NoteNotFound;
 use PHPUnit\Framework\TestCase;
 
 use OCP\AppFramework\Db\DoesNotExistException;
 
-use OCA\TwigacloudSignup\Db\Note;
-use OCA\TwigacloudSignup\Service\NoteService;
-use OCA\TwigacloudSignup\Db\NoteMapper;
+use OCA\Twigacloudsignup\Db\Note;
+use OCA\Twigacloudsignup\Service\NoteService;
+use OCA\Twigacloudsignup\Db\NoteMapper;
 
-class NoteServiceTest extends TestCase {
+class NoteServiceTest extends TestCase
+{
 	private NoteService $service;
 	private string $userId = 'john';
 	private $mapper;
 
-	public function setUp(): void {
+	public function setUp(): void
+	{
 		$this->mapper = $this->getMockBuilder(NoteMapper::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->service = new NoteService($this->mapper);
 	}
 
-	public function testUpdate(): void {
+	public function testUpdate(): void
+	{
 		// the existing note
 		$note = Note::fromRow([
 			'id' => 3,
@@ -52,7 +56,8 @@ class NoteServiceTest extends TestCase {
 		$this->assertEquals($updatedNote, $result);
 	}
 
-	public function testUpdateNotFound(): void {
+	public function testUpdateNotFound(): void
+	{
 		$this->expectException(NoteNotFound::class);
 		// test the correct status code if no note is found
 		$this->mapper->expects($this->once())

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import Vue from 'vue'
-import RegistrationEmail from './components/RegistrationEmail.vue'
+import RegistrationPhone from './components/RegistrationPhone.vue'
 import Verification from './components/Verification.vue'
 import User from './components/User.vue'
 
@@ -13,7 +13,7 @@ let view = null
 if (document.getElementById('registration_email')) {
 	view = new Vue({
 		el: '#registration_email',
-		render: h => h(RegistrationEmail),
+		render: h => h(RegistrationPhone),
 	})
 }
 

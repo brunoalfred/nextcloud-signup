@@ -33,7 +33,7 @@
 					:label-visible="true"
 					required
 					autofocus>
-					<Email :size="20" />
+					<Phone :size="20" />
 				</NcTextField>
 
 				<div id="terms_of_service" />
@@ -62,16 +62,16 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import { loadState } from '@nextcloud/initial-state'
-import Email from 'vue-material-design-icons/Email.vue'
+import Phone from 'vue-material-design-icons/Phone.vue'
 
 export default {
-	name: 'RegistrationEmail',
+	name: 'RegistrationPhone',
 
 	components: {
 		NcButton,
 		NcTextField,
 		NcNoteCard,
-		Email,
+		Phone,
 	},
 
 	data() {

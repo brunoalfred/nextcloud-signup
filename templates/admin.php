@@ -1,7 +1,7 @@
 <?php
 /** @var array $_ */
 /** @var \OCP\IL10N $l */
-script('registration', 'registration-settings');
-style('registration', 'settings');
+script('twigacloudsignup', 'registration-settings');
+style('twigacloudsignup', 'settings');
 ?>
 <div id="registration_settings_form"></div>

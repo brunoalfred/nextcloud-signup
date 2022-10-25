@@ -71,6 +71,6 @@ class RegistrationSettingsSection implements IIconSection {
 	 * @return string
 	 */
 	public function getIcon(): string {
-		return $this->urlGenerator->imagePath(Application::APP_ID, 'app-dark.svg');
+		return $this->urlGenerator->imagePath(Application::APP_ID, 'app.svg');
 	}
 }

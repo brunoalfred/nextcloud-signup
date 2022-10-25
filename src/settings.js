@@ -25,6 +25,6 @@ Vue.prototype.t = t
 Vue.prototype.OC = OC
 
 export const app = new Vue({
-    el: '#registration_settings_form',
-    render: h => h(AdminSettings),
+	el: '#registration_settings_form',
+	render: h => h(AdminSettings),
 })

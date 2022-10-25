@@ -34,6 +34,6 @@ class RegisterController extends Controller
 
     public function showPhoneForm(): TemplateResponse
     {
-        return new TemplateResponse('twigacloud_signup', 'form/phone', [], 'guest');
+        return new TemplateResponse('twigacloud_signup', 'form/email', [], 'guest');
     }
 }

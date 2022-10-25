@@ -72,6 +72,6 @@ class RegisterController extends Controller
         $this->initialState->provideInitialState('disablePhoneVerification', $this->config->getAppValue($this->appName, 'disable_phone_verification', 'no') === 'yes');
         $this->initialState->provideInitialState('isLoginFlow', $this->loginFlowService->isUsingLoginFlow());
         $this->initialState->provideInitialState('loginFormLink', $this->urlGenerator->linkToRoute('core.login.showLoginForm'));
-        return new TemplateResponse('twigacloud_signup', 'form/email', [], 'guest');
+        return new TemplateResponse('twigacloudsignup', 'form/email', [], 'guest');
     }
 }

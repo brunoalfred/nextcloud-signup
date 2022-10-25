@@ -1,7 +1,6 @@
 <!--
-  - @copyright Copyright (c) 2022 Carl Schwan <carl@carlschwan.eu>
+  - @copyright Copyright (c) 2022 Bruno Alfred <hello@brunoalfred.me>
   -
-  - @author Carl Schwan <carl@carlschwan.eu>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -76,10 +75,8 @@ export default {
 
 	data() {
 		return {
-			phoneIsOptional: loadState('twigacloudsignup', 'phoneIsOptional'),
 			message: loadState('twigacloudsignup', 'message'),
 			requesttoken: getRequestToken(),
-			disablePhoneVerification: loadState('twigacloudsignup', 'disablePhoneVerification'),
 			isLoginFlow: loadState('twigacloudsignup', 'isLoginFlow'),
 			loginFormLink: loadState('twigacloudsignup', 'loginFormLink'),
 		}
@@ -87,14 +84,10 @@ export default {
 
 	computed: {
 		phoneLabel() {
-			return this.emailIsOptional
-				? t('twigacloudsignup', 'Phone (optional)')
-				: t('twigacloudsignup', 'Phone')
+			return t('twigacloudsignup', 'Phone')
 		},
 		submitValue() {
-			if (this.phoneIsOptional || this.disablePhoneVerification) {
-				return t('twigacloudsignup', 'Continue')
-			} else if (this.isLoginFlow) {
+			if (this.isLoginFlow) {
 				return t('twigacloudsignup', 'Request verification code')
 			} else {
 				return t('twigacloudsignup', 'Request verification link')

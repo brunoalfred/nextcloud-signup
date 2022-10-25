@@ -47,21 +47,21 @@ use OCP\AppFramework\Db\Entity;
  */
 class Registration extends Entity {
 	public $id;
-	protected $email;
+	protected $phone;
 	protected $username;
 	protected $displayname;
 	protected $password;
 	protected $token;
 	protected $requested;
-	protected $emailConfirmed;
+	protected $phoneConfirmed;
 	protected $clientSecret;
 
 	public function __construct() {
-		$this->addType('email', 'string');
+		$this->addType('phone', 'string');
 		$this->addType('username', 'string');
 		$this->addType('password', 'string');
 		$this->addType('displayname', 'string');
-		$this->addType('emailConfirmed', 'boolean');
+		$this->addType('phoneConfirmed', 'boolean');
 		$this->addType('token', 'string');
 		$this->addType('clientSecret', 'string');
 		$this->addType('requested', 'datetime');

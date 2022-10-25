@@ -69,30 +69,8 @@ class RegistrationSettings implements ISettings {
 			$this->config->getAppValue($this->appName, 'admin_approval_required', 'no') === 'yes'
 		);
 
-		$this->initialState->provideInitialState(
-			'allowed_domains',
-			$this->config->getAppValue($this->appName, 'allowed_domains')
-		);
-		$this->initialState->provideInitialState(
-			'domains_is_blocklist',
-			$this->config->getAppValue($this->appName, 'domains_is_blocklist', 'no') === 'yes'
-		);
-		$this->initialState->provideInitialState(
-			'show_domains',
-			$this->config->getAppValue($this->appName, 'show_domains', 'no') === 'yes'
-		);
-		$this->initialState->provideInitialState(
-			'disable_phone_verification',
-			$this->config->getAppValue($this->appName, 'disable_phone_verification', 'no') === 'yes'
-		);
-		$this->initialState->provideInitialState(
-			'phone_is_optional',
-			$this->config->getAppValue($this->appName, 'phone_is_optional', 'no') === 'yes'
-		);
-		$this->initialState->provideInitialState(
-			'phone_is_login',
-			$this->config->getAppValue($this->appName, 'phone_is_login', 'no') === 'yes'
-		);
+	
+	
 		$this->initialState->provideInitialState(
 			'username_policy_regex',
 			$this->config->getAppValue($this->appName, 'username_policy_regex')

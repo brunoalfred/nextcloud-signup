@@ -142,9 +142,9 @@ class RegistrationService {
 	 * @param string $displayname
 	 * @return Registration
 	 */
-	public function createRegistration(string $email, string $username = '', string $password = '', string $displayname = ''): Registration {
+	public function createRegistration(string $phone, string $username = '', string $password = '', string $displayname = ''): Registration {
 		$registration = new Registration();
-		$registration->setEmail($email);
+		$registration->setPhone($phone);
 		$registration->setUsername($username);
 		$registration->setDisplayname($displayname);
 		if ($password !== '') {
@@ -158,66 +158,21 @@ class RegistrationService {
 	}
 
 	/**
-	 * @param string $email
+	 * @param string $phone
 	 * @throws RegistrationException
 	 */
-	public function validateEmail(string $email): void {
-		if ($email === '' && $this->config->getAppValue($this->appName, 'email_is_optional', 'no') === 'yes') {
-			return;
-		}
+	public function validatePhone(string $phone): void {
 
-		$this->phoneService->validateEmail($email);
+		$this->phoneService->validatePhone($phone);
 
 		// check for pending registrations
 		try {
-			$this->registrationMapper->find($email);//if not found DB will throw a exception
+			$this->registrationMapper->find($phone);//if not found DB will throw a exception
 			throw new RegistrationException(
-				$this->l10n->t('A user has already taken this email, maybe you already have an account?')
-			);
-		} catch (DoesNotExistException $e) {
-		}
-
-		if ($this->userManager->getByEmail($email)) {
-			throw new RegistrationException(
-				$this->l10n->t('A user has already taken this email, maybe you already have an account?'),
+				$this->l10n->t('A user has already taken this phone, maybe you already have an account?'),
 				$this->l10n->t('You can <a href="%s">log in now</a>.', [$this->urlGenerator->getAbsoluteURL('/')])
 			);
-		}
-
-		if (empty($this->getAllowedDomains())) {
-			return;
-		}
-
-		$emailIsInDomainList = $this->checkAllowedDomains($email);
-		$blockDomains = $this->config->getAppValue(Application::APP_ID, 'domains_is_blocklist', 'no') === 'yes';
-		$showDomains = $this->config->getAppValue(Application::APP_ID, 'show_domains', 'no') === 'yes';
-
-		if (!$blockDomains && !$emailIsInDomainList) {
-			if ($showDomains) {
-				throw new RegistrationException(
-					$this->l10n->t(
-						'Registration is only allowed with the following domains: %s',
-						[implode(', ', $this->getAllowedDomains())]
-					)
-				);
-			}
-			throw new RegistrationException(
-				$this->l10n->t('Registration with this email domain is not allowed.')
-			);
-		}
-
-		if ($blockDomains && $emailIsInDomainList) {
-			if ($showDomains) {
-				throw new RegistrationException(
-					$this->l10n->t(
-						'Registration is not allowed with the following domains: %s',
-						[implode(', ', $this->getAllowedDomains())]
-					)
-				);
-			}
-			throw new RegistrationException(
-				$this->l10n->t('Registration with this email domain is not allowed.')
-			);
+		} catch (DoesNotExistException $e) {
 		}
 	}
 
@@ -278,17 +233,17 @@ class RegistrationService {
 	}
 
 	/**
-	 * check if email domain is allowed
+	 * check if phone domain is allowed
 	 *
 	 * @param string $email
 	 * @return bool
 	 */
-	public function checkAllowedDomains(string $email): bool {
-		$allowedDomains = $this->getAllowedDomains();
-		if (!empty($allowedDomains)) {
+	public function checkAllowedCountryCodes(string $email): bool {
+		$allowedCountryCodes = $this->getAllowedCountryCodes();
+		if (!empty($allowedCountryCodes)) {
 			[,$mailDomain] = explode('@', strtolower($email), 2);
 
-			foreach ($allowedDomains as $domain) {
+			foreach ($allowedCountryCodes as $domain) {
 				// valid domain, everything's fine
 
 				// Wildcards
@@ -316,13 +271,13 @@ class RegistrationService {
 	/**
 	 * @return string[]
 	 */
-	public function getAllowedDomains(): array {
-		$allowedDomains = $this->config->getAppValue($this->appName, 'allowed_domains', '');
-		$allowedDomains = explode(';', $allowedDomains);
-		$allowedDomains = array_map('trim', $allowedDomains);
-		$allowedDomains = array_filter($allowedDomains);
-		$allowedDomains = array_map('strtolower', $allowedDomains);
-		return $allowedDomains;
+	public function getAllowedCountryCodes(): array {
+		$allowedCountryCodes = $this->config->getAppValue($this->appName, 'allowed_country_codes', '');
+		$allowedCountryCodes = explode(';', $allowedCountryCodes);
+		$allowedCountryCodes = array_map('trim', $allowedCountryCodes);
+		$allowedCountryCodes = array_filter($allowedCountryCodes);
+		$allowedCountryCodes = array_map('strtolower', $allowedCountryCodes);
+		return $allowedCountryCodes;
 	}
 
 	/**
@@ -462,8 +417,8 @@ class RegistrationService {
 	 * @return Registration
 	 * @throws DoesNotExistException
 	 */
-	public function getRegistrationForEmail(string $email): Registration {
-		return $this->registrationMapper->find($email);
+	public function getRegistrationForPhone(string $phone): Registration {
+		return $this->registrationMapper->find($phone);
 	}
 
 	/**

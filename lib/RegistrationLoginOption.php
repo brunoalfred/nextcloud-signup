@@ -21,7 +21,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\Registration;
+namespace OCA\Twigacloudsignup;
 
 use OCP\Authentication\IAlternativeLogin;
 use OCP\IL10N;

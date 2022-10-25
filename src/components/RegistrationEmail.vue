@@ -1,7 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2022 Bruno Alfred <hello@brunoalfred.me>
+  - @copyright Copyright (c) 2022 Carl Schwan <carl@carlschwan.eu>
   -
-  - @author Bruno Alfred <hello@brunoalfred.me>
+  - @author Carl Schwan <carl@carlschwan.eu>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -20,30 +20,40 @@
   -
   -->
 <template>
-    <div class="guest-box">
-        <form action="" method="post">
-            <fieldset>
-                <NcNoteCard v-if="message !== ''" type="error">
-                    {{ message }}
-                </NcNoteCard>
+	<div class="guest-box">
+		<form action="" method="post">
+			<fieldset>
+				<NcNoteCard v-if="message !== ''" type="error">
+					{{ message }}
+				</NcNoteCard>
 
-                <NcTextField name="email" type="email" :label="emailLabel" :label-visible="true" required autofocus>
-                    <Email :size="20" />
-                </NcTextField>
+				<NcTextField name="email"
+					type="email"
+					:label="emailLabel"
+					:label-visible="true"
+					required
+					autofocus>
+					<Email :size="20" />
+				</NcTextField>
 
-                <div id="terms_of_service" />
+				<div id="terms_of_service" />
 
-                <input type="hidden" name="requesttoken" :value="requesttoken">
-                <NcButton id="submit" native-type="submit" type="primary" :wide="true">
-                    {{ submitValue }}
-                </NcButton>
+				<input type="hidden" name="requesttoken" :value="requesttoken">
+				<NcButton id="submit"
+					native-type="submit"
+					type="primary"
+					:wide="true">
+					{{ submitValue }}
+				</NcButton>
 
-                <NcButton type="tertiary" :href="loginFormLink" :wide="true">
-                    {{ t('registration', 'Back to login') }}
-                </NcButton>
-            </fieldset>
-        </form>
-    </div>
+				<NcButton type="tertiary"
+					:href="loginFormLink"
+					:wide="true">
+					{{ t('registration', 'Back to login') }}
+				</NcButton>
+			</fieldset>
+		</form>
+	</div>
 </template>
 
 <script>
@@ -55,57 +65,57 @@ import { loadState } from '@nextcloud/initial-state'
 import Email from 'vue-material-design-icons/Email.vue'
 
 export default {
-    name: 'RegistrationEmail',
+	name: 'RegistrationEmail',
 
-    components: {
-        NcButton,
-        NcTextField,
-        NcNoteCard,
-        Email,
-    },
+	components: {
+		NcButton,
+		NcTextField,
+		NcNoteCard,
+		Email,
+	},
 
-    data() {
-        return {
-            emailIsOptional: loadState('registration', 'emailIsOptional'),
-            message: loadState('registration', 'message'),
-            requesttoken: getRequestToken(),
-            disableEmailVerification: loadState('registration', 'disableEmailVerification'),
-            isLoginFlow: loadState('registration', 'isLoginFlow'),
-            loginFormLink: loadState('registration', 'loginFormLink'),
-        }
-    },
+	data() {
+		return {
+			emailIsOptional: loadState('registration', 'emailIsOptional'),
+			message: loadState('registration', 'message'),
+			requesttoken: getRequestToken(),
+			disableEmailVerification: loadState('registration', 'disableEmailVerification'),
+			isLoginFlow: loadState('registration', 'isLoginFlow'),
+			loginFormLink: loadState('registration', 'loginFormLink'),
+		}
+	},
 
-    computed: {
-        emailLabel() {
-            return this.emailIsOptional
-                ? t('registration', 'Email (optional)')
-                : t('registration', 'Email')
-        },
-        submitValue() {
-            if (this.emailIsOptional || this.disableEmailVerification) {
-                return t('registration', 'Continue')
-            } else if (this.isLoginFlow) {
-                return t('registration', 'Request verification code')
-            } else {
-                return t('registration', 'Request verification link')
-            }
-        },
-    },
+	computed: {
+		emailLabel() {
+			return this.emailIsOptional
+				? t('registration', 'Email (optional)')
+				: t('registration', 'Email')
+		},
+		submitValue() {
+			if (this.emailIsOptional || this.disableEmailVerification) {
+				return t('registration', 'Continue')
+			} else if (this.isLoginFlow) {
+				return t('registration', 'Request verification code')
+			} else {
+				return t('registration', 'Request verification link')
+			}
+		},
+	},
 }
 </script>
 
 <style lang="scss" scoped>
 .guest-box {
-    text-align: left;
+	text-align: left;
 }
 
 fieldset {
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
+	display: flex;
+	flex-direction: column;
+	gap: .5rem;
 }
 
 .button-vue--vue-tertiary {
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 </style>

@@ -23,6 +23,7 @@ use OCP\IL10N;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCA\Twigacloudsignup\Events\ShowFormEvent;
 use OCP\IConfig;
+use OCA\Twigacloudsignup\Service\LoginFlowService;
 
 class RegisterController extends Controller
 {
@@ -31,17 +32,27 @@ class RegisterController extends Controller
     private IL10N $l10n;
     private IEventDispatcher $eventDispatcher;
     private IConfig $config;
+    private LoginFlowService $loginFlowService;
 
-    public function __construct(string $AppName, IRequest $request, IInitialState $initialState, IURLGenerator $urlGenerator, IL10N $l10n, IEventDispatcher $eventDispatcher, IConfig $config)
-    {
+    public function __construct(
+        string $AppName,
+        IRequest $request,
+        IInitialState $initialState,
+        IURLGenerator $urlGenerator,
+        IL10N $l10n,
+        IEventDispatcher $eventDispatcher,
+        IConfig $config,
+        LoginFlowService $loginFlowService
+    ) {
         parent::__construct($AppName, $request);
         $this->initialState = $initialState;
         $this->urlGenerator = $urlGenerator;
         $this->l10n = $l10n;
         $this->eventDispatcher = $eventDispatcher;
         $this->config = $config;
+        $this->loginFlowService = $loginFlowService;
     }
-   
+
     /**
      * @NoAdminRequired
      * @NoCSRFRequired

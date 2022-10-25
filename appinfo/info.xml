@@ -26,4 +26,11 @@
     <dependencies>
         <nextcloud min-version="24" max-version="24"/>
     </dependencies>
+    <background-jobs>
+        <job>OCA\Twigacloudsignup\BackgroundJob\ExpireRegistrations</job>
+    </background-jobs>
+    <settings>
+        <admin>OCA\Twigacloudsignup\Settings\RegistrationSettings</admin>
+        <admin-section>OCA\Twigacloudsignup\Settings\RegistrationSettingsSection</admin-section>
+    </settings>
 </info>

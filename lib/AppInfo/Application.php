@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace OCA\Twigacloudsignup\AppInfo;
 
-use OCA\Registration\RegistrationLoginOption;
+use OCA\Twigacloudsignup\RegistrationLoginOption;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IBootContext;

@@ -55,7 +55,7 @@ class RegistrationSettingsSection implements IIconSection {
 	 * @return string
 	 */
 	public function getName(): string {
-		return $this->l10n->t('Registration');
+		return $this->l10n->t('Twigacloud Signup');
 	}
 
 	/**

@@ -27,9 +27,9 @@
 					{{ message }}
 				</NcNoteCard>
 
-				<NcTextField name="email"
-					type="email"
-					:label="emailLabel"
+				<NcTextField name="phone"
+					type="phone"
+					:label="phoneLabel"
 					:label-visible="true"
 					required
 					autofocus>
@@ -76,23 +76,23 @@ export default {
 
 	data() {
 		return {
-			emailIsOptional: loadState('registration', 'emailIsOptional'),
+			emailIsOptional: loadState('registration', 'phoneIsOptional'),
 			message: loadState('registration', 'message'),
 			requesttoken: getRequestToken(),
-			disableEmailVerification: loadState('registration', 'disableEmailVerification'),
+			disableEmailVerification: loadState('registration', 'disablePhoneVerification'),
 			isLoginFlow: loadState('registration', 'isLoginFlow'),
 			loginFormLink: loadState('registration', 'loginFormLink'),
 		}
 	},
 
 	computed: {
-		emailLabel() {
+		phoneLabel() {
 			return this.emailIsOptional
-				? t('registration', 'Email (optional)')
-				: t('registration', 'Email')
+				? t('registration', 'Phone (optional)')
+				: t('registration', 'Phone')
 		},
 		submitValue() {
-			if (this.emailIsOptional || this.disableEmailVerification) {
+			if (this.phoneIsOptional || this.disablePhoneVerification) {
 				return t('registration', 'Continue')
 			} else if (this.isLoginFlow) {
 				return t('registration', 'Request verification code')

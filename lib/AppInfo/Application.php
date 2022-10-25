@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace OCA\Twigacloudsignup\AppInfo;
 
-use OCA\Twigacloudsignup\Capabilities;
+
 use OCA\Twigacloudsignup\RegistrationLoginOption;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -25,7 +25,6 @@ class Application extends App implements IBootstrap
 	public function register(IRegistrationContext $context): void
 	{
 		$context->registerAlternativeLogin(RegistrationLoginOption::class);
-		$context->registerCapability(Capabilities::class);
 	}
 
 	public function boot(IBootContext $context): void

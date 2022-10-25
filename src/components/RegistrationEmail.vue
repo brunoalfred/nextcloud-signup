@@ -76,12 +76,12 @@ export default {
 
 	data() {
 		return {
-			emailIsOptional: loadState('registration', 'phoneIsOptional'),
-			message: loadState('registration', 'message'),
+			phoneIsOptional: loadState('twigacloudsignup', 'phoneIsOptional'),
+			message: loadState('twigacloudsignup', 'message'),
 			requesttoken: getRequestToken(),
-			disableEmailVerification: loadState('registration', 'disablePhoneVerification'),
-			isLoginFlow: loadState('registration', 'isLoginFlow'),
-			loginFormLink: loadState('registration', 'loginFormLink'),
+			disablePhoneVerification: loadState('twigacloudsignup', 'disablePhoneVerification'),
+			isLoginFlow: loadState('twigacloudsignup', 'isLoginFlow'),
+			loginFormLink: loadState('twigacloudsignup', 'loginFormLink'),
 		}
 	},
 

@@ -49,12 +49,12 @@ class RegistrationLoginOption implements IAlternativeLogin
 
     public function getLabel(): string
     {
-        return $this->l->t('Jisajili');
+        return $this->l->t('Sajili');
     }
 
     public function getLink(): string
     {
-        return $this->url->linkToRoute('registration.register.showEmailForm');
+        return $this->url->linkToRoute('twigacloudsignup.register.showPhoneForm');
     }
 
     public function getClass(): string

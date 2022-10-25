@@ -46,7 +46,7 @@ class RegisterController extends Controller
      * @PublicPage
      */
 
-    public function showPhoneForm(string $phone, string $message = ''): TemplateResponse
+    public function showPhoneForm(string $phone = '', string $message = ''): TemplateResponse
     {
         $phoneHint = '';
 

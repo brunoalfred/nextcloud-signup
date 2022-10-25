@@ -87,14 +87,14 @@ class RegistrationMapper extends QBMapper {
 	}
 
 	/**
-	 * @param string $email
+	 * @param string $phone
 	 * @return Registration
 	 */
-	public function find(string $email): Entity {
+	public function find(string $phone): Entity {
 		$query = $this->db->getQueryBuilder();
 		$query->select('*')
 			->from($this->getTableName())
-			->where($query->expr()->eq('email', $query->createNamedParameter($email)));
+			->where($query->expr()->eq('phone', $query->createNamedParameter($phone)));
 
 		return $this->findEntity($query);
 	}

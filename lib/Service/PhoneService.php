@@ -76,14 +76,16 @@ class PhoneService
     }
 
     /**
-     * @param string $email
+     * @param string $phone
      * @throws RegistrationException
      */
-    public function validateEmail(string $email): void
+    public function validatePhone(string $phone): void
     {
-        if (!$this->mailer->validateMailAddress($email)) {
-            throw new RegistrationException($this->l10n->t('The email address you entered is not valid'));
-        }
+        // if (!$this->mailer->validateMailAddress($email)) {
+        //     throw new RegistrationException($this->l10n->t('The email address you entered is not valid'));
+        // }
+
+        // custom logic to validate the phone number
     }
 
     /**

@@ -88,16 +88,16 @@ export default {
 	computed: {
 		phoneLabel() {
 			return this.emailIsOptional
-				? t('registration', 'Phone (optional)')
-				: t('registration', 'Phone')
+				? t('twigacloudsignup', 'Phone (optional)')
+				: t('twigacloudsignup', 'Phone')
 		},
 		submitValue() {
 			if (this.phoneIsOptional || this.disablePhoneVerification) {
-				return t('registration', 'Continue')
+				return t('twigacloudsignup', 'Continue')
 			} else if (this.isLoginFlow) {
-				return t('registration', 'Request verification code')
+				return t('twigacloudsignup', 'Request verification code')
 			} else {
-				return t('registration', 'Request verification link')
+				return t('twigacloudsignup', 'Request verification link')
 			}
 		},
 	},

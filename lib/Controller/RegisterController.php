@@ -20,19 +20,23 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IL10N;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCA\Twigacloudsignup\Events\ShowFormEvent;
 
 class RegisterController extends Controller
 {
     private IInitialState $initialState;
     private IURLGenerator $urlGenerator;
     private IL10N $l10n;
+    private IEventDispatcher $eventDispatcher;
 
-    public function __construct(string $AppName, IRequest $request, IInitialState $initialState, IURLGenerator $urlGenerator, IL10N $l10n,)
+    public function __construct(string $AppName, IRequest $request, IInitialState $initialState, IURLGenerator $urlGenerator, IL10N $l10n, IEventDispatcher $eventDispatcher)
     {
         parent::__construct($AppName, $request);
         $this->initialState = $initialState;
         $this->urlGenerator = $urlGenerator;
         $this->l10n = $l10n;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
 
@@ -45,6 +49,9 @@ class RegisterController extends Controller
     public function showPhoneForm(string $phone, string $message = ''): TemplateResponse
     {
         $phoneHint = '';
+
+
+        $this->eventDispatcher->dispatchTyped(new ShowFormEvent(ShowFormEvent::STEP_PHONE));
 
         $this->initialState->provideInitialState('phone', $phone);
         $this->initialState->provideInitialState('message', $message ?: $phoneHint);

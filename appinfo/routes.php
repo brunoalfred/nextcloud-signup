@@ -20,5 +20,6 @@ return [
 		['name' => 'register#submitVerificationForm', 'url' => '/verify/{secret}', 'verb' => 'POST'],
 		['name' => 'register#showUserForm', 'url' => '/register/{secret}/{token}', 'verb' => 'GET'],
 		['name' => 'register#submitUserForm', 'url' => '/register/{secret}/{token}', 'verb' => 'POST'],
+		['name' => 'settings#admin', 'url' => '/settings', 'verb' => 'POST'],
 	]
 ];

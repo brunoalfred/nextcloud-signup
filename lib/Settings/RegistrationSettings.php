@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace OCA\Twigacloudsignup\Settings;
 
 use libphonenumber\PhoneNumberUtil;
-use OCA\Registration\AppInfo\Application;
+use OCA\Twigacloudsignup\AppInfo\Application;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -82,16 +82,16 @@ class RegistrationSettings implements ISettings {
 			$this->config->getAppValue($this->appName, 'show_domains', 'no') === 'yes'
 		);
 		$this->initialState->provideInitialState(
-			'disable_email_verification',
-			$this->config->getAppValue($this->appName, 'disable_email_verification', 'no') === 'yes'
+			'disable_phone_verification',
+			$this->config->getAppValue($this->appName, 'disable_phone_verification', 'no') === 'yes'
 		);
 		$this->initialState->provideInitialState(
-			'email_is_optional',
-			$this->config->getAppValue($this->appName, 'email_is_optional', 'no') === 'yes'
+			'phone_is_optional',
+			$this->config->getAppValue($this->appName, 'phone_is_optional', 'no') === 'yes'
 		);
 		$this->initialState->provideInitialState(
-			'email_is_login',
-			$this->config->getAppValue($this->appName, 'email_is_login', 'no') === 'yes'
+			'phone_is_login',
+			$this->config->getAppValue($this->appName, 'phone_is_login', 'no') === 'yes'
 		);
 		$this->initialState->provideInitialState(
 			'username_policy_regex',
@@ -128,8 +128,8 @@ class RegistrationSettings implements ISettings {
 			$this->config->getAppValue($this->appName, 'additional_hint')
 		);
 		$this->initialState->provideInitialState(
-			'email_verification_hint',
-			$this->config->getAppValue($this->appName, 'email_verification_hint')
+			'phone_verification_hint',
+			$this->config->getAppValue($this->appName, 'phone_verification_hint')
 		);
 
 		return new TemplateResponse('registration', 'admin', [], TemplateResponse::RENDER_AS_BLANK);

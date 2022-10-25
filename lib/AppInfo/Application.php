@@ -25,6 +25,7 @@ class Application extends App implements IBootstrap
 	public function register(IRegistrationContext $context): void
 	{
 		$context->registerAlternativeLogin(RegistrationLoginOption::class);
+		$context->registerEventListener(\OCP\User\Events\UserCreatedEvent::class, \OCA\Twigacloudsignup\Listener\UserCreatedListener::class);
 	}
 
 	public function boot(IBootContext $context): void

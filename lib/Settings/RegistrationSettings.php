@@ -132,7 +132,7 @@ class RegistrationSettings implements ISettings {
 			$this->config->getAppValue($this->appName, 'phone_verification_hint')
 		);
 
-		return new TemplateResponse('registration', 'admin', [], TemplateResponse::RENDER_AS_BLANK);
+		return new TemplateResponse('twigacloudsignup', 'admin', [], TemplateResponse::RENDER_AS_BLANK);
 	}
 
 	public function getSection(): string {

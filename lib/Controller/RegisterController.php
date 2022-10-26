@@ -150,7 +150,7 @@ class RegisterController extends Controller
         $this->initialState->provideInitialState('message', $message);
         $this->initialState->provideInitialState('loginFormLink', $this->urlGenerator->linkToRoute('core.login.showLoginForm'));
 
-        return new TemplateResponse('registration', 'form/verification', [], 'guest');
+        return new TemplateResponse('twigacloudsignup', 'form/verification', [], 'guest');
     }
 
 

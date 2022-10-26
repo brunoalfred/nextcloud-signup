@@ -72,6 +72,23 @@ class RegistrationMapper extends QBMapper {
 		return $this->findEntity($query);
 	}
 
+	/**
+	 * @param string $secret
+	 * @return Registration
+	 * @throws DoesNotExistException
+	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException
+	 */
+	public function findByUserId(string $userId): Entity
+	{
+		$query = $this->db->getQueryBuilder();
+		$query->select('*')
+		->from($this->getTableName())
+			->where($query->expr()->eq('username', $query->createNamedParameter($userId)));
+
+		return $this->findEntity($query);
+	}
+
+
 	public function usernameIsPending(string $username): bool {
 		try {
 			$query = $this->db->getQueryBuilder();

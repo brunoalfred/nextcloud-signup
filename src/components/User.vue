@@ -28,7 +28,7 @@
 					{{ message }}
 				</NcNoteCard>
 				<p v-else>
-					{{ t('registration', 'Welcome, you can create your account below.') }}
+					{{ t('twigacloudsignup', 'Welcome, you can create your account below.') }}
 				</p>
 
 				<NcNoteCard v-if="additionalHint" type="success">
@@ -38,7 +38,7 @@
 				<NcTextField v-if="!emailIsOptional || email.length > 0"
 					:value.sync="email"
 					type="email"
-					:label="t('registration', 'Email')"
+					:label="t('twigacloudsignup', 'Email')"
 					:label-visible="true"
 					name="email"
 					disabled>
@@ -49,7 +49,7 @@
 					:value.sync="loginname"
 					type="text"
 					name="loginname"
-					:label="t('registration', 'Login name')"
+					:label="t('twigacloudsignup', 'Login name')"
 					:label-visible="true"
 					required>
 					<Key :size="20" class="input__icon" />
@@ -63,7 +63,7 @@
 					:value.sync="fullname"
 					type="text"
 					name="fullname"
-					:label="t('registration', 'Full name')"
+					:label="t('twigacloudsignup', 'Full name')"
 					:label-visible="true"
 					:required="enforceFullname">
 					<Account :size="20" class="input__icon" />
@@ -77,7 +77,7 @@
 					:value.sync="phone"
 					type="text"
 					name="phone"
-					:label="t('registration', 'Phone number')"
+					:label="t('twigacloudsignup', 'Phone number')"
 					:label-visible="true"
 					:required="enforcePhone">
 					<Phone :size="20" class="input__icon" />
@@ -88,7 +88,7 @@
 					value="">
 
 				<NcPasswordField :value.sync="password"
-					:label="t('registration', 'Password')"
+					:label="t('twigacloudsignup', 'Password')"
 					:label-visible="true"
 					name="password"
 					required>
@@ -100,7 +100,7 @@
 					type="primary"
 					:wide="true"
 					:disabled="submitting || password.length === 0">
-					{{ submitting ? t('registration', 'Loading') : t('registration', 'Create account') }}
+					{{ submitting ? t('twigacloudsignup', 'Loading') : t('twigacloudsignup', 'Create account') }}
 				</NcButton>
 			</fieldset>
 		</form>
@@ -137,21 +137,16 @@ export default {
 
 	data() {
 		return {
-			email: loadState('registration', 'phone'),
-			emailIsLogin: loadState('registration', 'emailIsLogin'),
-			emailIsOptional: loadState('registration', 'emailIsOptional'),
-			loginname: loadState('registration', 'loginname'),
-			fullname: loadState('registration', 'fullname'),
-			showFullname: loadState('registration', 'showFullname'),
-			enforceFullname: loadState('registration', 'enforceFullname'),
-			phone: loadState('registration', 'phone'),
-			showPhone: loadState('registration', 'showPhone'),
-			enforcePhone: loadState('registration', 'enforcePhone'),
-			message: loadState('registration', 'message'),
-			password: loadState('registration', 'password'),
-			additionalHint: loadState('registration', 'additionalHint'),
+			phone: loadState('twigacloudsignup', 'phone'),
+			loginname: loadState('twigacloudsignup', 'loginname'),
+			fullname: loadState('twigacloudsignup', 'fullname'),
+			showFullname: loadState('twigacloudsignup', 'showFullname'),
+			enforceFullname: loadState('twigacloudsignup', 'enforceFullname'),
+			message: loadState('twigacloudsignup', 'message'),
+			password: loadState('twigacloudsignup', 'password'),
+			additionalHint: loadState('twigacloudsignup', 'additionalHint'),
 			requesttoken: getRequestToken(),
-			loginFormLink: loadState('registration', 'loginFormLink'),
+			loginFormLink: loadState('twigacloudsignup', 'loginFormLink'),
 			isPasswordHidden: true,
 			passwordInputType: 'password',
 			submitting: false,

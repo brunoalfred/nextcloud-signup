@@ -53,7 +53,8 @@ use \OCP\IConfig;
 use \OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
-class RegistrationService {
+class RegistrationService
+{
 
 	/** @var string */
 	private $appName;
@@ -87,6 +88,8 @@ class RegistrationService {
 	private $tokenProvider;
 	/** @var ICrypto */
 	private $crypto;
+	/** @var SmsGatewayService */
+	private $smsGatewayService;
 
 	public function __construct(
 		string $appName,
@@ -104,7 +107,8 @@ class RegistrationService {
 		LoggerInterface $logger,
 		ISession $session,
 		IProvider $tokenProvider,
-		ICrypto $crypto
+		ICrypto $crypto,
+		SmsGatewayService $smsGatewayService
 	) {
 		$this->appName = $appName;
 		$this->phoneService = $phoneService;
@@ -122,14 +126,17 @@ class RegistrationService {
 		$this->session = $session;
 		$this->tokenProvider = $tokenProvider;
 		$this->crypto = $crypto;
+		$this->smsGatewayService = $smsGatewayService;
 	}
 
-	public function confirmEmail(Registration $registration): void {
+	public function confirmEmail(Registration $registration): void
+	{
 		$registration->setEmailConfirmed(true);
 		$this->registrationMapper->update($registration);
 	}
 
-	public function generateNewToken(Registration $registration): void {
+	public function generateNewToken(Registration $registration): void
+	{
 		$this->registrationMapper->generateNewToken($registration);
 		$this->registrationMapper->update($registration);
 	}
@@ -142,7 +149,8 @@ class RegistrationService {
 	 * @param string $displayname
 	 * @return Registration
 	 */
-	public function createRegistration(string $phone, string $username = '', string $password = '', string $displayname = ''): Registration {
+	public function createRegistration(string $phone, string $username = '', string $password = '', string $displayname = ''): Registration
+	{
 		$registration = new Registration();
 		$registration->setPhone($phone);
 		$registration->setUsername($username);
@@ -161,13 +169,14 @@ class RegistrationService {
 	 * @param string $phone
 	 * @throws RegistrationException
 	 */
-	public function validatePhone(string $phone): void {
+	public function validatePhone(string $phone): void
+	{
 
 		$this->phoneService->validatePhone($phone);
 
 		// check for pending registrations
 		try {
-			$this->registrationMapper->find($phone);//if not found DB will throw a exception
+			$this->registrationMapper->find($phone); //if not found DB will throw a exception
 			throw new RegistrationException(
 				$this->l10n->t('A user has already taken this phone, maybe you already have an account?'),
 				$this->l10n->t('You can <a href="%s">log in now</a>.', [$this->urlGenerator->getAbsoluteURL('/')])
@@ -180,7 +189,8 @@ class RegistrationService {
 	 * @param string $displayname
 	 * @throws RegistrationException
 	 */
-	public function validateDisplayname(string $displayname): void {
+	public function validateDisplayname(string $displayname): void
+	{
 		if ($displayname === '') {
 			throw new RegistrationException($this->l10n->t('Please provide a valid display name.'));
 		}
@@ -190,7 +200,8 @@ class RegistrationService {
 	 * @param string $username
 	 * @throws RegistrationException
 	 */
-	public function validateUsername(string $username): void {
+	public function validateUsername(string $username): void
+	{
 		if ($username === '') {
 			throw new RegistrationException($this->l10n->t('Please provide a valid login name.'));
 		}
@@ -209,7 +220,8 @@ class RegistrationService {
 	 * @param string $phone
 	 * @throws RegistrationException
 	 */
-	public function validatePhoneNumber(string $phone): void {
+	public function validatePhoneNumber(string $phone): void
+	{
 		$defaultRegion = $this->config->getSystemValueString('default_phone_region', '');
 
 		if ($defaultRegion === '') {
@@ -232,7 +244,7 @@ class RegistrationService {
 		}
 	}
 
-	
+
 
 
 	/**
@@ -244,7 +256,8 @@ class RegistrationService {
 	 * @return IUser
 	 * @throws RegistrationException|InvalidArgumentException
 	 */
-	public function createAccount(Registration $registration, ?string $loginName = null, ?string $fullName = null, ?string $phone = null, ?string $password = null): IUser {
+	public function createAccount(Registration $registration, ?string $loginName = null, ?string $fullName = null, ?string $phone = null, ?string $password = null): IUser
+	{
 		if ($loginName === null) {
 			$loginName = $registration->getUsername();
 		}
@@ -259,16 +272,20 @@ class RegistrationService {
 
 		$this->validateUsername($loginName);
 
-		if ($this->config->getAppValue('registration', 'show_fullname', 'no') === 'yes'
-			&& $this->config->getAppValue('registration', 'enforce_fullname', 'no') === 'yes') {
+		if (
+			$this->config->getAppValue('twigacloudsignup', 'show_fullname', 'no') === 'yes'
+			&& $this->config->getAppValue('twigacloudsignup', 'enforce_fullname', 'no') === 'yes'
+		) {
 			$this->validateDisplayname($fullName);
 		}
 
-		if (class_exists(PhoneNumberUtil::class)
-			&& $this->config->getAppValue('registration', 'show_phone', 'no') === 'yes') {
+		if (
+			class_exists(PhoneNumberUtil::class)
+			&& $this->config->getAppValue('twigacloudsignup', 'show_phone', 'no') === 'yes'
+		) {
 			if ($phone) {
 				$this->validatePhoneNumber($phone);
-			} elseif ($this->config->getAppValue('registration', 'enforce_phone', 'no') === 'yes') {
+			} elseif ($this->config->getAppValue('twigacloudsignup', 'enforce_phone', 'no') === 'yes') {
 				throw new RegistrationException($this->l10n->t('Please provide a valid phone number.'));
 			}
 		}
@@ -289,20 +306,22 @@ class RegistrationService {
 
 		// Set user email
 		try {
-			$user->setEMailAddress($registration->getEmail());
+			// $user->setSystemEMailAddress($registration->getEmail()); we can consider setting this another time
 		} catch (\Exception $e) {
 			throw new RegistrationException($this->l10n->t('Unable to set user email: ' . $e->getMessage()));
 		}
 
 		// Set display name
-		if ($fullName && $this->config->getAppValue('registration', 'show_fullname', 'no') === 'yes') {
+		if ($fullName && $this->config->getAppValue('twigacloudsignup', 'show_fullname', 'no') === 'yes') {
 			$user->setDisplayName($fullName);
 		}
 
 		// Set phone number in account data
-		if (method_exists($this->accountManager, 'updateAccount')
+		if (
+			method_exists($this->accountManager, 'updateAccount')
 			&& $phone
-			&& $this->config->getAppValue('registration', 'show_phone', 'no') === 'yes') {
+			&& $this->config->getAppValue('twigacloudsignup', 'show_phone', 'no') === 'yes'
+		) {
 			$account = $this->accountManager->getAccount($user);
 			$property = $account->getProperty(IAccountManager::PROPERTY_PHONE);
 			$account->setProperty(
@@ -337,33 +356,26 @@ class RegistrationService {
 			$user->setEnabled(false);
 			$this->config->setUserValue($userId, Application::APP_ID, 'send_welcome_mail_on_enable', 'yes');
 		} else {
-			$this->sendWelcomeMail($user);
+			$this->sendWelcomeSms($registration);
 		}
 
 		$this->phoneService->notifyAdmins($userId, $user->getEMailAddress(), $user->isEnabled(), $groupId);
 		return $user;
 	}
 
-	public function sendWelcomeMail(IUser $user): void {
-		$this->config->deleteUserValue($user->getUID(), Application::APP_ID, 'send_welcome_mail_on_enable');
-
-		if ($this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes') {
-			/** @var NewUserMailHelper $helper */
-			$helper = \OC::$server->get(NewUserMailHelper::class);
-
-			try {
-				$emailTemplate = $helper->generateTemplate($user);
-				$helper->sendMail($user, $emailTemplate);
-			} catch (\Exception $e) {
-				// Catching this so at least admins are notified
-				$this->logger->error(
-					'Unable to send the invitation mail to {user}',
-					[
-						'user' => $user->getUID(),
-						'exception' => $e,
-					]
-				);
-			}
+	public function sendWelcomeSms(Registration $registration): void
+	{
+		try {
+			$this->smsGatewayService->sendSms($registration->getPhone() , $this->l10n->t('Welcome to Twiga Cloud! %s', [$registration->getUsername()]));
+		} catch (\Exception $e) {
+			// Catching this so at least admins are notified
+			$this->logger->error(
+				'Unable to send the invitation sms to {user}',
+				[
+					'user' => $registration->getId(),
+					'exception' => $e,
+				]
+			);
 		}
 	}
 
@@ -372,7 +384,8 @@ class RegistrationService {
 	 * @return Registration
 	 * @throws DoesNotExistException
 	 */
-	public function getRegistrationForPhone(string $phone): Registration {
+	public function getRegistrationForPhone(string $phone): Registration
+	{
 		return $this->registrationMapper->find($phone);
 	}
 
@@ -381,11 +394,13 @@ class RegistrationService {
 	 * @return Registration
 	 * @throws DoesNotExistException
 	 */
-	public function getRegistrationForSecret(string $secret): Registration {
+	public function getRegistrationForSecret(string $secret): Registration
+	{
 		return $this->registrationMapper->findBySecret($secret);
 	}
 
-	public function deleteRegistration(Registration $registration): void {
+	public function deleteRegistration(Registration $registration): void
+	{
 		$this->registrationMapper->delete($registration);
 	}
 
@@ -396,7 +411,8 @@ class RegistrationService {
 	 *
 	 * @return string
 	 */
-	private function generateRandomDeviceToken(): string {
+	private function generateRandomDeviceToken(): string
+	{
 		$groups = [];
 		for ($i = 0; $i < 5; $i++) {
 			$groups[] = $this->random->generate(5, ISecureRandom::CHAR_HUMAN_READABLE);
@@ -409,7 +425,8 @@ class RegistrationService {
 	 * @return string
 	 * @throws RegistrationException
 	 */
-	public function generateAppPassword(string $uid): string {
+	public function generateAppPassword(string $uid): string
+	{
 		$name = $this->l10n->t('Registration app auto setup');
 		try {
 			$sessionId = $this->session->getId();
@@ -440,7 +457,8 @@ class RegistrationService {
 	 * @param string $password
 	 * @param bool $decrypt
 	 */
-	public function loginUser(string $userId, string $username, string $password, bool $decrypt = false): void {
+	public function loginUser(string $userId, string $username, string $password, bool $decrypt = false): void
+	{
 		if ($decrypt) {
 			$password = $this->crypto->decrypt($password);
 		}
@@ -448,4 +466,17 @@ class RegistrationService {
 		$this->userSession->login($username, $password);
 		$this->userSession->createSessionToken($this->request, $userId, $username, $password);
 	}
+
+	// getRegistrationByUserId 
+
+	/**
+	 * @param string $userId
+	 */
+
+	 public function getRegistrationByUserId(string $userId): Registration
+	 {
+		 return $this->registrationMapper->findByUserId($userId);
+	 }
+
+
 }

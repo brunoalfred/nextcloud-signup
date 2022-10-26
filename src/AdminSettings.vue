@@ -1,7 +1,6 @@
 <!--
-  - @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
+  - @copyright Copyright (c) 2022 Bruno Alfred <hello@brunoalfred.me>
   -
-  - @author Roeland Jago Douma <roeland@famdouma.nl>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -55,14 +54,14 @@
 		</NcSettingsSection>
 
 		<NcSettingsSection :title="t('twigacloudsignup', 'User settings')">
-			<NcCheckboxRadioSwitch v-if="!emailIsOptional"
-				:checked.sync="emailIsLogin"
+			<NcCheckboxRadioSwitch v-if="!phoneIsOptional"
+				:checked.sync="phoneIsLogin"
 				type="switch"
 				:disabled="loading"
 				@update:checked="saveData">
-				{{ t('twigacloudsignup', 'Force email as login name') }}
+				{{ t('twigacloudsignup', 'Force phone as login name') }}
 			</NcCheckboxRadioSwitch>
-			<template v-if="!emailIsLogin">
+			<template v-if="!phoneIsLogin">
 				<p>
 					<label for="username_policy_regex">{{ t('twigacloudsignup', 'Login name policy') }}</label>
 					<input id="username_policy_regex"
@@ -123,15 +122,15 @@
 				@input="debounceSavingSlow">
 			<p><em>{{ t('twigacloudsignup', 'Add additional user instructions (e.g. for choosing their login name). If configured the text is displayed in the account creation step of the registration process.') }}</em></p>
 
-			<h3>{{ t('twigacloudsignup', 'Verification email instructions') }}</h3>
-			<input v-model="emailVerificationHint"
+			<h3>{{ t('twigacloudsignup', 'Verification phone instructions') }}</h3>
+			<input v-model="phoneVerificationHint"
 				type="text"
-				name="email_verification_hint"
+				name="phone_verification_hint"
 				:disabled="loading"
 				placeholder="Please create your username following the scheme 'firstname.lastname'."
-				:aria-label="t('registration', 'A short message that is shown to the user in the verification email.')"
+				:aria-label="t('registration', 'A short message that is shown to the user in the verification phone.')"
 				@input="debounceSavingSlow">
-			<p><em>{{ t('twigacloudsignup', 'Add additional user instructions (e.g. for choosing their login name). If configured the text is embedded in the verification-email.') }}</em></p>
+			<p><em>{{ t('twigacloudsignup', 'Add additional user instructions (e.g. for choosing their login name). If configured the text is embedded in the verification-phone.') }}</em></p>
 		</NcSettingsSection>
 	</div>
 </template>
@@ -162,10 +161,9 @@ export default {
 			loadingGroups: false,
 			groups: [],
 			saveNotification: null,
-
 			adminApproval: false,
 			registeredUserGroup: '',
-			emailIsLogin: false,
+			phoneIsLogin: false,
 			usernamePolicyRegex: '',
 			showFullname: false,
 			enforceFullname: false,
@@ -173,7 +171,7 @@ export default {
 			showPhone: false,
 			enforcePhone: false,
 			additionalHint: '',
-			emailVerificationHint: '',
+			phoneVerificationHint: '',
 		}
 	},
 

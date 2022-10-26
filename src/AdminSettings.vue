@@ -206,7 +206,7 @@ export default {
 			}
 
 			try {
-				const response = await axios.post(generateUrl('/apps/registration/settings'), {
+				const response = await axios.post(generateUrl('/apps/twigacloudsignup/settings'), {
 					admin_approval_required: this.adminApproval,
 					registered_user_group: this.registeredUserGroup?.id,
 					phone_is_login: !this.phoneIsOptional && this.phoneIsLogin,

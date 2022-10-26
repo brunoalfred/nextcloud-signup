@@ -45,20 +45,16 @@ class SettingsController extends Controller
      * @AdminRequired
      *
      * @param string|null $registered_user_group all newly registered user will be put in this group
-     * @param string $allowed_domains Registrations are only allowed for E-Mailadresses with these domains
      * @param string $additional_hint show Text at user-creation form
      * @param string $phone_verification_hint if filled embed Text in Verification mail send to user
      * @param string $username_policy_regex optional regex to check usernames against a pattern
      * @param bool|null $admin_approval_required newly registered users have to be validated by an admin
      * @param bool|null $phone_is_optional phone address is not required
      * @param bool|null $phone_is_login phone address is forced as user id
-     * @param bool|null $domains_is_blocklist is the domain list an allow or block list
-     * @param bool|null $show_domains should the phone list be shown to the user or not
      * @return DataResponse
      */
     public function admin(
         ?string $registered_user_group,
-        string $allowed_domains,
         string $additional_hint,
         string $phone_verification_hint,
         string $username_policy_regex,
@@ -69,16 +65,7 @@ class SettingsController extends Controller
         ?bool $enforce_fullname,
         ?bool $show_phone,
         ?bool $enforce_phone,
-        ?bool $domains_is_blocklist,
-        ?bool $show_domains,
-        ?bool $disable_phone_verification
     ) {
-        // handle domains
-        if (($allowed_domains === '') || ($allowed_domains === null)) {
-            $this->config->deleteAppValue($this->appName, 'allowed_domains');
-        } else {
-            $this->config->setAppValue($this->appName, 'allowed_domains', $allowed_domains);
-        }
 
         // handle hints
         if (($additional_hint === '') || ($additional_hint === null)) {
@@ -96,7 +83,7 @@ class SettingsController extends Controller
         //handle regex
         if (($username_policy_regex === '') || ($username_policy_regex === null)) {
             $this->config->deleteAppValue($this->appName, 'username_policy_regex');
-        } elseif ((@preg_match($username_policy_regex, null) === false)) {
+        } elseif ((@preg_match($username_policy_regex, '') === false)) {
             // validate regex
             return new DataResponse([
                 'data' => [
@@ -109,15 +96,12 @@ class SettingsController extends Controller
         }
 
         $this->config->setAppValue($this->appName, 'admin_approval_required', $admin_approval_required ? 'yes' : 'no');
-        $this->config->setAppValue($this->appName, 'phone_is_optional', $phone_is_optional ? 'yes' : 'no');
         $this->config->setAppValue($this->appName, 'phone_is_login', !$phone_is_optional && $phone_is_login ? 'yes' : 'no');
         $this->config->setAppValue($this->appName, 'show_fullname', $show_fullname ? 'yes' : 'no');
         $this->config->setAppValue($this->appName, 'enforce_fullname', $enforce_fullname ? 'yes' : 'no');
         $this->config->setAppValue($this->appName, 'show_phone', $show_phone ? 'yes' : 'no');
         $this->config->setAppValue($this->appName, 'enforce_phone', $enforce_phone ? 'yes' : 'no');
-        $this->config->setAppValue($this->appName, 'domains_is_blocklist', $domains_is_blocklist ? 'yes' : 'no');
-        $this->config->setAppValue($this->appName, 'show_domains', $show_domains ? 'yes' : 'no');
-        $this->config->setAppValue($this->appName, 'disable_phone_verification', $disable_phone_verification ? 'yes' : 'no');
+
 
         if ($registered_user_group === null) {
             $this->config->deleteAppValue($this->appName, 'registered_user_group');

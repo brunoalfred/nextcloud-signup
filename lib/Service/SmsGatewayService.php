@@ -37,7 +37,7 @@ class SmsGatewayService
     private $config;
     
     public function __construct(
-        IConfig $config,
+        IConfig $config
     ) {
         $this->client =
         new \GuzzleHttp\Client([

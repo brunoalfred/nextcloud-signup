@@ -60,7 +60,7 @@ class UserEnabledListener implements IEventListener
         $user = $event->getUser();
         $value = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'send_welcome_mail_on_enable', 'no');
         if ($value === 'yes') {
-            $this->registrationService->sendWelcomeMail($event->getUser());
+            $this->registrationService->sendWelcomeSms($this->registrationService->getRegistrationByUserId($user->getUID()));
         }
     }
 }

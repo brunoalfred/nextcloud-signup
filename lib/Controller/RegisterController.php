@@ -33,6 +33,14 @@ use OCA\Twigacloudsignup\Service\RegistrationService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCA\Twigacloudsignup\Db\Registration;
+use OCP\AppFramework\Http\StandaloneTemplateResponse;
+use OCP\AppFramework\Http\RedirectToDefaultAppResponse;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http;
+use OC\HintException;
+use Exception;
+
+
 class RegisterController extends Controller
 {
     private IInitialState $initialState;
@@ -153,8 +161,151 @@ class RegisterController extends Controller
         return new TemplateResponse('twigacloudsignup', 'form/verification', [], 'guest');
     }
 
+    /**
+     * @PublicPage
+     * @AnonRateThrottle(limit=5, period=300)
+     *
+     * @param string $secret
+     * @param string $token
+     * @return Response
+     */
+    public function submitVerificationForm(string $secret, string $token): Response
+    {
+        try {
+            $registration = $this->registrationService->getRegistrationForSecret($secret);
+
+            if ($registration->getToken() !== $token) {
+                return $this->showVerificationForm(
+                    $secret,
+                    $this->l10n->t('The entered verification code is wrong')
+                );
+            }
+        } catch (DoesNotExistException $e) {
+            return $this->validateSecretAndTokenErrorPage();
+        }
+
+        $validateFormEvent = new ValidateFormEvent(ValidateFormEvent::STEP_VERIFICATION, $secret);
+        $this->eventDispatcher->dispatchTyped($validateFormEvent);
+
+        if (!empty($validateFormEvent->getErrors())) {
+            return $this->showVerificationForm($secret, implode(' ', $validateFormEvent->getErrors()));
+        }
+
+        $this->eventDispatcher->dispatchTyped(new PassedFormEvent(PassedFormEvent::STEP_VERIFICATION, $secret));
+
+        return new RedirectResponse(
+            $this->urlGenerator->linkToRoute(
+                'twigacloudsignup.register.showUserForm',
+                [
+                    'secret' => $secret,
+                    'token' => $token,
+                ]
+            )
+        );
+    }
 
 
+    /**
+     * @NoCSRFRequired
+     * @PublicPage
+     */
+    public function showUserForm(string $secret, string $token, string $loginname = '', string $fullname = '', string $phone = '', string $password = '', string $message = ''): TemplateResponse
+    {
+        try {
+            $registration = $this->validateSecretAndToken($secret, $token);
+        } catch (RegistrationException $e) {
+            return $this->validateSecretAndTokenErrorPage();
+        }
+
+        $additional_hint = $this->config->getAppValue('twigacloudsignup', 'additional_hint');
+
+        $this->eventDispatcher->dispatchTyped(new ShowFormEvent(ShowFormEvent::STEP_USER, $secret));
+
+        $this->initialState->provideInitialState('phone', $registration->getPhone());
+        $this->initialState->provideInitialState('loginname', $loginname);
+        $this->initialState->provideInitialState('fullname', $fullname);
+        $this->initialState->provideInitialState('showFullname', $this->config->getAppValue('registration', 'show_fullname', 'no') === 'yes');
+        $this->initialState->provideInitialState('enforceFullname', $this->config->getAppValue('registration', 'enforce_fullname', 'no') === 'yes');
+        $this->initialState->provideInitialState('message', $message);
+        $this->initialState->provideInitialState('password', $password);
+        $this->initialState->provideInitialState('additionalHint', $additional_hint);
+        $this->initialState->provideInitialState('loginFormLink', $this->urlGenerator->linkToRoute('core.login.showLoginForm'));
+
+        $response = new TemplateResponse('twigacloudsignup', 'form/user', [], 'guest');
+
+        if ($this->loginFlowService->isUsingLoginFlow(1)) {
+            $csp = new ContentSecurityPolicy();
+            $csp->addAllowedFormActionDomain('nc://*');
+            $response->setContentSecurityPolicy($csp);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @PublicPage
+     * @UseSession
+     * @AnonRateThrottle(limit=5, period=300)
+     *
+     * @param string $secret
+     * @param string $token
+     * @param string $loginname
+     * @param string $fullname
+     * @param string $phone
+     * @param string $password
+     * @return RedirectResponse|TemplateResponse
+     */
+    public function submitUserForm(string $secret, string $token, string $loginname, string $fullname, string $phone, string $password): Response
+    {
+        try {
+            $registration = $this->validateSecretAndToken($secret, $token);
+        } catch (RegistrationException $e) {
+            return $this->validateSecretAndTokenErrorPage();
+        }
+
+        $validateFormEvent = new ValidateFormEvent(ValidateFormEvent::STEP_USER, $secret);
+        $this->eventDispatcher->dispatchTyped($validateFormEvent);
+
+        if (!empty($validateFormEvent->getErrors())) {
+            return $this->showUserForm($secret, $token, $loginname, $fullname, $phone, $password, implode(' ', $validateFormEvent->getErrors()));
+        }
+
+        try {
+            $user = $this->registrationService->createAccount($registration, $loginname, $fullname, $phone, $password);
+        } catch (HintException $exception) {
+            return $this->showUserForm($secret, $token, $loginname, $fullname, $phone, $password, $exception->getHint());
+        } catch (Exception $exception) {
+            return $this->showUserForm($secret, $token, $loginname, $fullname, $phone, $password, $exception->getMessage());
+        }
+
+        // Delete registration
+        $this->registrationService->deleteRegistration($registration);
+
+        $this->eventDispatcher->dispatchTyped(new PassedFormEvent(PassedFormEvent::STEP_USER, $secret, $user));
+
+        if ($user->isEnabled()) {
+            $this->registrationService->loginUser($user->getUID(), $user->getUID(), $password);
+
+            if ($this->loginFlowService->isUsingLoginFlow(2)) {
+                $response = $this->loginFlowService->tryLoginFlowV2($user);
+                if ($response instanceof Response) {
+                    return $response;
+                }
+            }
+
+            if ($this->loginFlowService->isUsingLoginFlow(1)) {
+                $response = $this->loginFlowService->tryLoginFlowV1();
+                if ($response instanceof Response && $response->getStatus() === Http::STATUS_SEE_OTHER) {
+                    return $response;
+                }
+            }
+
+            return new RedirectToDefaultAppResponse();
+        }
+
+        // warn the user their account needs admin validation
+        return new StandaloneTemplateResponse('twigacloudsignup', 'approval-required', [], 'guest');
+    }
 
 
 

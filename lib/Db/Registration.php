@@ -28,8 +28,8 @@ namespace OCA\Twigacloudsignup\Db;
 use OCP\AppFramework\Db\Entity;
 
 /**
- * @method string getEmail()
- * @method void setEmail(string $email)
+ * @method string getPhone()
+ * @method void setPhone(string $phone)
  * @method string getUsername()
  * @method void setUsername(string $username)
  * @method string getPassword()

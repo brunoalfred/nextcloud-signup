@@ -38,7 +38,7 @@ class RegistrationMapper extends QBMapper {
 	protected $random;
 
 	public function __construct(IDBConnection $db, ISecureRandom $random) {
-		parent::__construct($db, 'registration', Registration::class);
+		parent::__construct($db, 'twigacloudsignup', Registration::class);
 		$this->random = $random;
 	}
 

@@ -37,14 +37,14 @@ class SmsGatewayService
     private $config;
     
     public function __construct(
-        
+        IConfig $config,
     ) {
         $this->client =
         new \GuzzleHttp\Client([
             'base_uri' => 'http://demo.ubunifu.mikutano.co.tz',
         ]);
         $this->appName = 'twigacloudsignup';
-        $this->config = new IConfig();
+        $this->config = $config;
     }
     
     public function sendSms(string $phone, string $message): Response

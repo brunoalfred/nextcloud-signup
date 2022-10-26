@@ -42,6 +42,8 @@ class PhoneService
     private $urlGenerator;
     /** @var IMailer */
     private $mailer;
+    /** @var SmsGatewayService */
+    private $smsGatewayService;
     /** @var Defaults */
     private $defaults;
     /** @var IL10N */
@@ -58,6 +60,7 @@ class PhoneService
     public function __construct(
         IURLGenerator $urlGenerator,
         IMailer $mailer,
+        SmsGatewayService $smsGatewayService,
         Defaults $defaults,
         IL10N $l10n,
         IGroupManager $groupManager,
@@ -67,6 +70,7 @@ class PhoneService
     ) {
         $this->urlGenerator = $urlGenerator;
         $this->mailer = $mailer;
+        $this->smsGatewayService = $smsGatewayService;
         $this->config = $config;
         $this->defaults = $defaults;
         $this->l10n = $l10n;
@@ -94,61 +98,27 @@ class PhoneService
      */
     public function sendTokenByMail(Registration $registration): void
     {
-        $link = $this->urlGenerator->linkToRouteAbsolute('registration.register.showUserForm', [
+        $link = $this->urlGenerator->linkToRouteAbsolute('twigacloudsignup.register.showUserForm', [
             'secret' => $registration->getClientSecret(),
             'token' => $registration->getToken(),
         ]);
-        $subject = $this->l10n->t('Verify your %s registration request', [$this->defaults->getName()]);
 
-        $template = $this->mailer->createEMailTemplate('registration_verify', [
-            'link' => $link,
-            'token' => $registration->getToken(),
-            'sitename' => $this->defaults->getName(),
-        ]);
+        $message = $this->l10n->t('Verify your %s registration request using token %s or click link %s', [$this->defaults->getName(), $registration->getToken(), $link]);
 
-        $template->setSubject($subject);
-        $template->addHeader();
-        $template->addHeading($this->l10n->t('Registration'));
+        $response = $this->smsGatewayService->sendSms($registration->getPhone(), $message);
 
-        $body = $this->l10n->t('Email address verified, you can now complete your registration.');
-        if (!$this->loginFlowService->isUsingLoginFlow()) {
-            $template->addBodyText(
-                htmlspecialchars($body . ' ' . $this->l10n->t('Click the button below to continue.')),
-                $body
-            );
-        } else {
-            $template->addBodyText(
-                $body
-            );
-        }
-
+    
         // if the parameter is set through the settings panel add to body text
-        $email_verification_hint = $this->config->getAppValue('registration', 'email_verification_hint');
-        if (!empty($email_verification_hint)) {
-            $template->addBodyText($email_verification_hint);
+        $phone_verification_hint = $this->config->getAppValue('twigacloudsignup', 'phone_verification_hint');
+        if (!empty($phone_verification_hint)) {
+            $additionalMessage = $this->l10n->t('%s. Verification code: %s', [$phone_verification_hint, $registration->getToken()]);
+            $response = $this->smsGatewayService->sendSms($registration->getPhone(), $additionalMessage);
         };
-
-        $template->addBodyText(
-            $this->l10n->t('Verification code: %s', $registration->getToken())
-        );
-
-        if (!$this->loginFlowService->isUsingLoginFlow()) {
-            $template->addBodyButton(
-                $this->l10n->t('Continue registration'),
-                $link
-            );
+        
+        if ($response->getStatusCode() !== 200) {
+            throw new RegistrationException($this->l10n->t('A problem occurred sending sms, please contact your administrator.'));
         }
-        $template->addFooter();
 
-        $from = Util::getDefaultEmailAddress('register');
-        $message = $this->mailer->createMessage();
-        $message->setFrom([$from => $this->defaults->getName()]);
-        $message->setTo([$registration->getEmail()]);
-        $message->useTemplate($template);
-        $failed_recipients = $this->mailer->send($message);
-        if (!empty($failed_recipients)) {
-            throw new RegistrationException($this->l10n->t('A problem occurred sending email, please contact your administrator.'));
-        }
     }
 
     public function notifyAdmins(string $userId, ?string $userEMailAddress, bool $userIsEnabled, string $userGroupId): void

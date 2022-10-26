@@ -232,53 +232,8 @@ class RegistrationService {
 		}
 	}
 
-	/**
-	 * check if phone domain is allowed
-	 *
-	 * @param string $email
-	 * @return bool
-	 */
-	public function checkAllowedCountryCodes(string $email): bool {
-		$allowedCountryCodes = $this->getAllowedCountryCodes();
-		if (!empty($allowedCountryCodes)) {
-			[,$mailDomain] = explode('@', strtolower($email), 2);
+	
 
-			foreach ($allowedCountryCodes as $domain) {
-				// valid domain, everything's fine
-
-				// Wildcards
-				if (strpos($domain, '*') !== false) {
-					// *.example.com
-					// Make save for regex:
-					// \*\.example\.com
-					$regexDomain = preg_quote($domain, '\\');
-					// Replace "\*" with an actual regex wildcard and set start and end:
-					// /^.+\.example\.com$/
-					$regexDomain = '/^' . str_replace('\\*', '.+', $regexDomain) . '$/';
-
-					if (preg_match($regexDomain, $mailDomain)) {
-						return true;
-					}
-				} elseif ($mailDomain === $domain) {
-					return true;
-				}
-			}
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * @return string[]
-	 */
-	public function getAllowedCountryCodes(): array {
-		$allowedCountryCodes = $this->config->getAppValue($this->appName, 'allowed_country_codes', '');
-		$allowedCountryCodes = explode(';', $allowedCountryCodes);
-		$allowedCountryCodes = array_map('trim', $allowedCountryCodes);
-		$allowedCountryCodes = array_filter($allowedCountryCodes);
-		$allowedCountryCodes = array_map('strtolower', $allowedCountryCodes);
-		return $allowedCountryCodes;
-	}
 
 	/**
 	 * @param Registration $registration
@@ -413,7 +368,7 @@ class RegistrationService {
 	}
 
 	/**
-	 * @param string $email
+	 * @param string $phone
 	 * @return Registration
 	 * @throws DoesNotExistException
 	 */

@@ -27,6 +27,7 @@ use OCA\Twigacloudsignup\Events\ShowFormEvent;
 use OCA\Twigacloudsignup\Events\ValidateFormEvent;
 use OCP\IConfig;
 use OCA\Twigacloudsignup\Service\LoginFlowService;
+use OCA\Twigacloudsignup\Service\PhoneService;
 use OCA\Twigacloudsignup\Service\RegistrationException;
 use OCA\Twigacloudsignup\Service\RegistrationService;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -41,6 +42,7 @@ class RegisterController extends Controller
     private IConfig $config;
     private LoginFlowService $loginFlowService;
     private RegistrationService $registrationService;
+    private PhoneService $phoneService;
 
     public function __construct(
         string $AppName,
@@ -51,7 +53,8 @@ class RegisterController extends Controller
         IEventDispatcher $eventDispatcher,
         IConfig $config,
         LoginFlowService $loginFlowService,
-        RegistrationService $registrationService
+        RegistrationService $registrationService,
+        PhoneService $phoneService
     ) {
         parent::__construct($AppName, $request);
         $this->initialState = $initialState;
@@ -61,6 +64,7 @@ class RegisterController extends Controller
         $this->config = $config;
         $this->loginFlowService = $loginFlowService;
         $this->registrationService = $registrationService;
+        $this->phoneService = $phoneService;
     }
 
     /**
@@ -113,7 +117,7 @@ class RegisterController extends Controller
         }
 
         try {
-            $this->mailService->sendTokenByMail($registration);
+            $this->phoneService->sendTokenByMail($registration);
         } catch (RegistrationException $e) {
             return $this->showPhoneForm($phone, $e->getMessage());
         } catch (\Exception $e) {

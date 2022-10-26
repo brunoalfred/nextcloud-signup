@@ -63,17 +63,13 @@ class RegistrationSettings implements ISettings {
 			'registered_user_group',
 			$this->getGroupDetailArray($this->config->getAppValue($this->appName, 'registered_user_group', 'none'))
 		);
-
 		$this->initialState->provideInitialState(
 			'admin_approval_required',
 			$this->config->getAppValue($this->appName, 'admin_approval_required', 'no') === 'yes'
 		);
-
-	
-	
 		$this->initialState->provideInitialState(
-			'username_policy_regex',
-			$this->config->getAppValue($this->appName, 'username_policy_regex')
+			'phone_is_login',
+			$this->config->getAppValue($this->appName, 'phone_is_login', 'no') === 'yes'
 		);
 		$this->initialState->provideInitialState(
 			'username_policy_regex',

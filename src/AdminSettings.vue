@@ -21,25 +21,25 @@
   -->
 <template>
 	<div id="registration_settings_form">
-		<NcSettingsSection :title="t('registration', 'Registration settings')">
+		<NcSettingsSection :title="t('twigacloudsignup', 'Registration settings')">
 			<NcCheckboxRadioSwitch :checked.sync="adminApproval"
 				type="switch"
 				:disabled="loading"
 				@update:checked="saveData">
-				{{ t('registration', 'Require administrator approval') }}
+				{{ t('twigacloudsignup', 'Require administrator approval') }}
 			</NcCheckboxRadioSwitch>
 
-			<p><em>{{ t('registration', 'Enabling "administrator approval" will prevent registrations from mobile and desktop clients to complete as the credentials cannot be verified by the client until the user was enabled.') }}</em></p>
+			<p><em>{{ t('twigacloudsignup', 'Enabling "administrator approval" will prevent registrations from mobile and desktop clients to complete as the credentials cannot be verified by the client until the user was enabled.') }}</em></p>
 
 			<div>
 				<div class="margin-top">
 					<label for="registered_user_group">
-						{{ t('registration', 'Registered users default group') }}
+						{{ t('twigacloudsignup', 'Registered users default group') }}
 					</label>
 				</div>
 				<NcMultiselect id="registered_user_group"
 					v-model="registeredUserGroup"
-					:placeholder="t('registration', 'Select group')"
+					:placeholder="t('twigacloudsignup', 'Select group')"
 					:options="groups"
 					:disabled="loading"
 					:searchable="true"
@@ -54,72 +54,34 @@
 			</div>
 		</NcSettingsSection>
 
-		<NcSettingsSection :title="t('registration', 'Email settings')">
-			<NcCheckboxRadioSwitch :checked.sync="emailIsOptional"
-				type="switch"
-				:disabled="loading"
-				@update:checked="saveData">
-				{{ t('registration', 'Email is optional') }}
-			</NcCheckboxRadioSwitch>
-
-			<NcTextField :label="domainListLabel"
-				:label-visible="true"
-				:value.sync="allowedDomains"
-				:disabled="loading"
-				placeholder="nextcloud.com;*.example.com"
-				@input="debounceSavingSlow" />
-
-			<NcCheckboxRadioSwitch :checked.sync="domainsIsBlocklist"
-				type="switch"
-				:disabled="loading"
-				@update:checked="saveData">
-				{{ t('registration', 'Block listed email domains instead of allowing them') }}
-			</NcCheckboxRadioSwitch>
-
-			<NcCheckboxRadioSwitch :checked.sync="showDomains"
-				type="switch"
-				:disabled="loading"
-				@update:checked="saveData">
-				{{ showDomainListLabel }}
-			</NcCheckboxRadioSwitch>
-
-			<NcCheckboxRadioSwitch v-if="!emailIsOptional"
-				:checked.sync="disableEmailVerification"
-				type="switch"
-				:disabled="loading"
-				@update:checked="saveData">
-				{{ t('registration', 'Disable email verification') }}
-			</NcCheckboxRadioSwitch>
-		</NcSettingsSection>
-
-		<NcSettingsSection :title="t('registration', 'User settings')">
+		<NcSettingsSection :title="t('twigacloudsignup', 'User settings')">
 			<NcCheckboxRadioSwitch v-if="!emailIsOptional"
 				:checked.sync="emailIsLogin"
 				type="switch"
 				:disabled="loading"
 				@update:checked="saveData">
-				{{ t('registration', 'Force email as login name') }}
+				{{ t('twigacloudsignup', 'Force email as login name') }}
 			</NcCheckboxRadioSwitch>
 			<template v-if="!emailIsLogin">
 				<p>
-					<label for="username_policy_regex">{{ t('registration', 'Login name policy') }}</label>
+					<label for="username_policy_regex">{{ t('twigacloudsignup', 'Login name policy') }}</label>
 					<input id="username_policy_regex"
 						v-model="usernamePolicyRegex"
 						type="text"
 						name="username_policy_regex"
 						:disabled="loading"
 						placeholder="E.g.: /^[a-z-]+\.[a-z-]+$/"
-						:aria-label="t('registration', 'Regular expression to validate login names')"
+						:aria-label="t('twigacloudsignup', 'Regular expression to validate login names')"
 						@input="debounceSavingSlow">
 				</p>
-				<em>{{ t('registration', 'If configured, login names will be validated through the regular expression. If the validation fails the user is prompted with a generic error. Make sure your regex is working correctly.') }}</em>
+				<em>{{ t('twigacloudsignup', 'If configured, login names will be validated through the regular expression. If the validation fails the user is prompted with a generic error. Make sure your regex is working correctly.') }}</em>
 			</template>
 
 			<NcCheckboxRadioSwitch :checked.sync="showFullname"
 				:disabled="loading"
 				type="switch"
 				@update:checked="saveData">
-				{{ t('registration', 'Show full name field') }}
+				{{ t('twigacloudsignup', 'Show full name field') }}
 			</NcCheckboxRadioSwitch>
 
 			<NcCheckboxRadioSwitch v-if="showFullname"
@@ -128,7 +90,7 @@
 				type="switch"
 				:disabled="loading"
 				@update:checked="saveData">
-				{{ t('registration', 'Enforce full name field') }}
+				{{ t('twigacloudsignup', 'Enforce full name field') }}
 			</NcCheckboxRadioSwitch>
 
 			<NcCheckboxRadioSwitch v-if="canShowPhone"
@@ -136,7 +98,7 @@
 				type="switch"
 				:disabled="loading"
 				@update:checked="saveData">
-				{{ t('registration', 'Show phone field') }}
+				{{ t('twigacloudsignup', 'Show phone field') }}
 			</NcCheckboxRadioSwitch>
 
 			<NcCheckboxRadioSwitch v-if="canShowPhone && showPhone"
@@ -145,7 +107,7 @@
 				type="switch"
 				:disabled="loading"
 				@update:checked="saveData">
-				{{ t('registration', 'Enforce phone field') }}
+				{{ t('twigacloudsignup', 'Enforce phone field') }}
 			</NcCheckboxRadioSwitch>
 		</NcSettingsSection>
 
@@ -159,9 +121,9 @@
 				placeholder="Please create your username following the scheme 'firstname.lastname'."
 				:aria-label="t('registration', 'A short message that is shown to the user in the registration process.')"
 				@input="debounceSavingSlow">
-			<p><em>{{ t('registration', 'Add additional user instructions (e.g. for choosing their login name). If configured the text is displayed in the account creation step of the registration process.') }}</em></p>
+			<p><em>{{ t('twigacloudsignup', 'Add additional user instructions (e.g. for choosing their login name). If configured the text is displayed in the account creation step of the registration process.') }}</em></p>
 
-			<h3>{{ t('registration', 'Verification email instructions') }}</h3>
+			<h3>{{ t('twigacloudsignup', 'Verification email instructions') }}</h3>
 			<input v-model="emailVerificationHint"
 				type="text"
 				name="email_verification_hint"
@@ -169,7 +131,7 @@
 				placeholder="Please create your username following the scheme 'firstname.lastname'."
 				:aria-label="t('registration', 'A short message that is shown to the user in the verification email.')"
 				@input="debounceSavingSlow">
-			<p><em>{{ t('registration', 'Add additional user instructions (e.g. for choosing their login name). If configured the text is embedded in the verification-email.') }}</em></p>
+			<p><em>{{ t('twigacloudsignup', 'Add additional user instructions (e.g. for choosing their login name). If configured the text is embedded in the verification-email.') }}</em></p>
 		</NcSettingsSection>
 	</div>
 </template>
@@ -178,7 +140,6 @@
 import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import '@nextcloud/dialogs/styles/toast.scss'
@@ -193,7 +154,6 @@ export default {
 		NcMultiselect,
 		NcSettingsSection,
 		NcCheckboxRadioSwitch,
-		NcTextField,
 	},
 
 	data() {
@@ -205,11 +165,6 @@ export default {
 
 			adminApproval: false,
 			registeredUserGroup: '',
-			allowedDomains: '',
-			domainsIsBlocklist: false,
-			showDomains: false,
-			emailIsOptional: false,
-			disableEmailVerification: false,
 			emailIsLogin: false,
 			usernamePolicyRegex: '',
 			showFullname: false,
@@ -223,39 +178,21 @@ export default {
 	},
 
 	computed: {
-		domainListLabel() {
-			if (this.domainsIsBlocklist) {
-				return t('registration', 'Blocked email domains')
-			}
 
-			return t('registration', 'Allowed email domains')
-		},
-		showDomainListLabel() {
-			if (this.domainsIsBlocklist) {
-				return t('registration', 'Show the blocked email domains to users')
-			}
-
-			return t('registration', 'Show the allowed email domains to users')
-		},
 	},
 
 	mounted() {
-		this.adminApproval = loadState('registration', 'admin_approval_required')
-		this.registeredUserGroup = loadState('registration', 'registered_user_group')
-		this.allowedDomains = loadState('registration', 'allowed_domains')
-		this.domainsIsBlocklist = loadState('registration', 'domains_is_blocklist')
-		this.showDomains = loadState('registration', 'show_domains')
-		this.emailIsOptional = loadState('registration', 'email_is_optional')
-		this.disableEmailVerification = loadState('registration', 'disable_email_verification')
-		this.emailIsLogin = loadState('registration', 'email_is_login')
-		this.usernamePolicyRegex = loadState('registration', 'username_policy_regex')
-		this.showFullname = loadState('registration', 'show_fullname')
-		this.enforceFullname = loadState('registration', 'enforce_fullname')
-		this.canShowPhone = loadState('registration', 'can_show_phone')
-		this.showPhone = loadState('registration', 'show_phone')
-		this.enforcePhone = loadState('registration', 'enforce_phone')
-		this.additionalHint = loadState('registration', 'additional_hint')
-		this.emailVerificationHint = loadState('registration', 'email_verification_hint')
+		this.adminApproval = loadState('twigacloudsignup', 'admin_approval_required')
+		this.registeredUserGroup = loadState('twigacloudsignup', 'registered_user_group')
+		this.phoneIsLogin = loadState('twigacloudsignup', 'phone_is_login')
+		this.usernamePolicyRegex = loadState('twigacloudsignup', 'username_policy_regex')
+		this.showFullname = loadState('twigacloudsignup', 'show_fullname')
+		this.enforceFullname = loadState('twigacloudsignup', 'enforce_fullname')
+		this.canShowPhone = loadState('twigacloudsignup', 'can_show_phone')
+		this.showPhone = loadState('twigacloudsignup', 'show_phone')
+		this.enforcePhone = loadState('twigacloudsignup', 'enforce_phone')
+		this.additionalHint = loadState('twigacloudsignup', 'additional_hint')
+		this.phoneVerificationHint = loadState('twigacloudsignup', 'phone_verification_hint')
 
 		this.searchGroup('')
 	},
@@ -274,19 +211,14 @@ export default {
 				const response = await axios.post(generateUrl('/apps/registration/settings'), {
 					admin_approval_required: this.adminApproval,
 					registered_user_group: this.registeredUserGroup?.id,
-					allowed_domains: this.allowedDomains,
-					domains_is_blocklist: this.domainsIsBlocklist,
-					show_domains: this.showDomains,
-					email_is_optional: this.emailIsOptional,
-					disable_email_verification: this.emailIsOptional || this.disableEmailVerification,
-					email_is_login: !this.emailIsOptional && this.emailIsLogin,
+					phone_is_login: !this.phoneIsOptional && this.phoneIsLogin,
 					username_policy_regex: this.usernamePolicyRegex,
 					show_fullname: this.showFullname,
 					enforce_fullname: this.enforceFullname,
 					show_phone: this.showPhone,
 					enforce_phone: this.enforcePhone,
 					additional_hint: this.additionalHint,
-					email_verification_hint: this.emailVerificationHint,
+					phone_verification_hint: this.phoneVerificationHint,
 				})
 
 				if (response?.data?.status === 'success' && response?.data?.data?.message) {
@@ -294,13 +226,13 @@ export default {
 				} else if (response?.data?.data?.message) {
 					this.saveNotification = showError(response.data.data.message)
 				} else {
-					this.saveNotification = showError(t('registration', 'An error occurred while saving the settings'))
+					this.saveNotification = showError(t('twigacloudsignup', 'An error occurred while saving the settings'))
 				}
 			} catch (e) {
 				if (e.response?.data?.data?.message) {
 					this.saveNotification = showError(e.response.data.data.message)
 				} else {
-					this.saveNotification = showError(t('registration', 'An error occurred while saving the settings'))
+					this.saveNotification = showError(t('twigacloudsignup', 'An error occurred while saving the settings'))
 					console.error(e)
 				}
 			}

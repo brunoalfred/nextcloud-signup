@@ -26,6 +26,7 @@ namespace OCA\Twigacloudsignup\Service;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 
 class SmsGatewayService
 {
@@ -76,4 +77,4 @@ class SmsGatewayService
     }
 }
 
-}
+

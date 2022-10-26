@@ -35,9 +35,12 @@ class SmsGatewayService
     protected $appName;
     /** @var IConfig */
     private $config;
+    /** @var LoggerInterface */
+    private  $logger;
     
     public function __construct(
-        IConfig $config
+        IConfig $config,
+        LoggerInterface $logger
     ) {
         $this->client =
         new \GuzzleHttp\Client([
@@ -45,12 +48,15 @@ class SmsGatewayService
         ]);
         $this->appName = 'twigacloudsignup';
         $this->config = $config;
+        $this->logger = $logger;
     }
     
     public function sendSms(string $phone, string $message): Response
     {
 
-       return  $this->client->request('POST', '/send_message_api', [
+        $this->logger->info($this->config->getAppValue($this->appName, 'sms_gateway_username') . ' ' . $this->config->getAppValue($this->appName, 'sms_gateway_password'));
+
+       $response =  $this->client->request('POST', '/send_message_api', [
             'auth' => [$this->config->getAppValue($this->appName, 'sms_gateway_username', ''), $this->config->getAppValue($this->appName, 'sms_gateway_password', '')],
             'form_params' => [
                 'receipient' => $phone,
@@ -58,6 +64,16 @@ class SmsGatewayService
             ]
         ]);
 
+        $this->logger->info('SMS sent to ' . $phone . ' with message ' . $message);
+
+        return $response;
+
     }
+
+    public function log($message)
+    {
+        $this->logger->error($message, ['extra_context' => 'my extra context']);
+    }
+}
 
 }

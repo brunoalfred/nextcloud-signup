@@ -32,7 +32,7 @@ use OCA\Twigacloudsignup\Service\RegistrationException;
 use OCA\Twigacloudsignup\Service\RegistrationService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http\RedirectResponse;
-
+use OCA\Twigacloudsignup\Db\Registration;
 class RegisterController extends Controller
 {
     private IInitialState $initialState;
@@ -117,7 +117,7 @@ class RegisterController extends Controller
         }
 
         try {
-            $this->phoneService->sendTokenByMail($registration);
+            $this->phoneService->sendTokenByPhone($registration);
         } catch (RegistrationException $e) {
             return $this->showPhoneForm($phone, $e->getMessage());
         } catch (\Exception $e) {
@@ -132,5 +132,61 @@ class RegisterController extends Controller
                     ['secret' => $registration->getClientSecret()]
                 )
             );
+    }
+
+    /**
+     * @NoCSRFRequired
+     * @PublicPage
+     */
+    public function showVerificationForm(string $secret, string $message = ''): TemplateResponse
+    {
+        try {
+            $this->registrationService->getRegistrationForSecret($secret);
+        } catch (DoesNotExistException $e) {
+            return $this->validateSecretAndTokenErrorPage();
+        }
+
+        $this->eventDispatcher->dispatchTyped(new ShowFormEvent(ShowFormEvent::STEP_VERIFICATION, $secret));
+        $this->initialState->provideInitialState('message', $message);
+        $this->initialState->provideInitialState('loginFormLink', $this->urlGenerator->linkToRoute('core.login.showLoginForm'));
+
+        return new TemplateResponse('registration', 'form/verification', [], 'guest');
+    }
+
+
+
+
+
+
+    /**
+     * @param string $secret
+     * @param string $token
+     * @return Registration
+     * @throws RegistrationException
+     */
+    protected function validateSecretAndToken(string $secret, string $token): Registration
+    {
+        try {
+            $registration = $this->registrationService->getRegistrationForSecret($secret);
+        } catch (DoesNotExistException $e) {
+            throw new RegistrationException('Invalid secret');
+        }
+
+        if ($registration->getToken() !== $token) {
+            throw new RegistrationException('Invalid token');
+        }
+
+        return $registration;
+    }
+
+    protected function validateSecretAndTokenErrorPage(): TemplateResponse
+    {
+        return new TemplateResponse('core', 'error', [
+            'errors' => [
+                ['error' => $this->l10n->t('The verification failed.')],
+            ],
+        ],
+            'error'
+        );
     }
 }

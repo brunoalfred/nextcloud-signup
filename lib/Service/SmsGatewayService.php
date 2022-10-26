@@ -55,8 +55,6 @@ class SmsGatewayService
     public function sendSms(string $phone, string $message): Response
     {
 
-        $this->logger->info($this->config->getAppValue($this->appName, 'sms_gateway_username') . ' ' . $this->config->getAppValue($this->appName, 'sms_gateway_password'));
-
        $response =  $this->client->request('POST', '/send_message_api', [
             'auth' => [$this->config->getAppValue($this->appName, 'sms_gateway_username', ''), $this->config->getAppValue($this->appName, 'sms_gateway_password', '')],
             'form_params' => [

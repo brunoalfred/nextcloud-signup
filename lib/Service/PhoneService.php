@@ -96,7 +96,7 @@ class PhoneService
      * @param Registration $registration
      * @throws RegistrationException
      */
-    public function sendTokenByMail(Registration $registration): void
+    public function sendTokenByPhone(Registration $registration): void
     {
         $link = $this->urlGenerator->linkToRouteAbsolute('twigacloudsignup.register.showUserForm', [
             'secret' => $registration->getClientSecret(),

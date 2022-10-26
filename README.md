@@ -6,6 +6,16 @@ SPDX-License-Identifier: CC0-1.0
 # Twigacloud Signup
 Place this app in **nextcloud/apps/**
 
+## Setup
+
+Make sure you configure `sms_gateway_username` and `sms_gateway_password` in your `config.php` file.
+Use the following commands:
+    
+    ```bash
+    sudo -u www-data php ./occ config:app:set twigacloudsignup  sms_gateway_username --value="your_username"
+    sudo -u www-data php ./occ config:app:set twigacloudsignup  sms_gateway_password --value="your_password"
+    ```
+
 ## Building the app
 
 The app can be built by using the provided Makefile by running:

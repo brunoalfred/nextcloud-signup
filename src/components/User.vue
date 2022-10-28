@@ -45,8 +45,7 @@
 					<Phone :size="20" class="input__icon" />
 				</NcTextField>
 
-				<NcTextField v-if="!emailIsLogin"
-					:value.sync="loginname"
+				<NcTextField :value.sync="loginname"
 					type="text"
 					name="loginname"
 					:label="t('twigacloudsignup', 'Login name')"
@@ -54,10 +53,6 @@
 					required>
 					<Key :size="20" class="input__icon" />
 				</NcTextField>
-				<input v-else
-					type="hidden"
-					name="loginname"
-					:value="email">
 
 				<NcTextField v-if="showFullname"
 					:value.sync="fullname"
@@ -114,7 +109,6 @@ import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
 import { loadState } from '@nextcloud/initial-state'
-import Email from 'vue-material-design-icons/Email.vue'
 import Lock from 'vue-material-design-icons/Lock.vue'
 import Phone from 'vue-material-design-icons/Phone.vue'
 import Account from 'vue-material-design-icons/Account.vue'

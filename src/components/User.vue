@@ -35,14 +35,14 @@
 					{{ additionalHint }}
 				</NcNoteCard>
 
-				<NcTextField v-if="!emailIsOptional || email.length > 0"
-					:value.sync="email"
-					type="email"
-					:label="t('twigacloudsignup', 'Email')"
+				<NcTextField v-if="phone.length > 0"
+					:value.sync="phone"
+					type="phone"
+					:label="t('twigacloudsignup', 'phone')"
 					:label-visible="true"
-					name="email"
+					name="phone"
 					disabled>
-					<Email :size="20" class="input__icon" />
+					<Phone :size="20" class="input__icon" />
 				</NcTextField>
 
 				<NcTextField v-if="!emailIsLogin"
@@ -128,7 +128,6 @@ export default {
 		NcNoteCard,
 		NcTextField,
 		NcPasswordField,
-		Email,
 		Lock,
 		Phone,
 		Account,

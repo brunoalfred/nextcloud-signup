@@ -209,7 +209,7 @@ class RegisterController extends Controller
      * @NoCSRFRequired
      * @PublicPage
      */
-    public function showUserForm(string $secret, string $token, string $loginname = '', string $fullname = '', string $phone = '', string $password = '', string $message = ''): TemplateResponse
+    public function showUserForm(string $secret, string $token, string $loginname = '', string $fullname = '', string $email = '', string $password = '', string $message = ''): TemplateResponse
     {
         try {
             $registration = $this->validateSecretAndToken($secret, $token);
@@ -224,8 +224,8 @@ class RegisterController extends Controller
         $this->initialState->provideInitialState('phone', $registration->getPhone());
         $this->initialState->provideInitialState('loginname', $loginname);
         $this->initialState->provideInitialState('fullname', $fullname);
-        $this->initialState->provideInitialState('showFullname', $this->config->getAppValue('registration', 'show_fullname', 'no') === 'yes');
-        $this->initialState->provideInitialState('enforceFullname', $this->config->getAppValue('registration', 'enforce_fullname', 'no') === 'yes');
+        $this->initialState->provideInitialState('showFullname', $this->config->getAppValue('twigacloudsignup', 'show_fullname', 'no') === 'yes');
+        $this->initialState->provideInitialState('enforceFullname', $this->config->getAppValue('twigacloudsignup', 'enforce_fullname', 'no') === 'yes');
         $this->initialState->provideInitialState('message', $message);
         $this->initialState->provideInitialState('password', $password);
         $this->initialState->provideInitialState('additionalHint', $additional_hint);

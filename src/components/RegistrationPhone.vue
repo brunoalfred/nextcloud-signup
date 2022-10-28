@@ -48,7 +48,7 @@
 				<NcButton type="tertiary"
 					:href="loginFormLink"
 					:wide="true">
-					{{ t('registration', 'Back to login') }}
+					{{ t('twigacloudsignup', 'Back to login') }}
 				</NcButton>
 			</fieldset>
 		</form>

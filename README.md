@@ -12,8 +12,14 @@ Make sure you configure `sms_gateway_username` and `sms_gateway_password` in you
 Use the following commands:
     
     ```bash
+    
     sudo -u www-data php ./occ config:app:set twigacloudsignup  sms_gateway_username --value="your_username"
     sudo -u www-data php ./occ config:app:set twigacloudsignup  sms_gateway_password --value="your_password"
+    
+    # For AIO
+    sudo docker exec --user www-data -it nextcloud-aio-nextcloud php occ config:app:set twigacloudsignup  sms_gateway_username --value="your_username"
+    sudo docker exec --user www-data -it nextcloud-aio-nextcloud php occ config:app:set twigacloudsignup  sms_gateway_password --value="your_password"
+    
     ```
 
 ## Building the app

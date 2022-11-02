@@ -27,7 +27,7 @@
 				</NcNoteCard>
 
 				<NcTextField name="phone"
-					type="phone"
+					type="text"
 					:label="phoneLabel"
 					:label-visible="true"
 					required

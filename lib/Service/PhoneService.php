@@ -103,7 +103,7 @@ class PhoneService
             'token' => $registration->getToken(),
         ]);
 
-        $message = $this->l10n->t('Verify your %s registration request using code #%s or click link %s', [$this->defaults->getName(), $registration->getToken(), $link]);
+        $message = $this->l10n->t('Verify your %s registration request using passcode %s or click link %s', [$this->defaults->getName(), $registration->getToken(), $link]);
 
         $response = $this->smsGatewayService->sendSms($registration->getPhone(), $message);
 

@@ -85,8 +85,8 @@ class PhoneService
      */
     public function validatePhone(string $phone): void
     {
-        // check if phone number falls in options [0xxxxxxxxx, 255xxxxxxxxx, +255xxxxxxxxx]
-        if (!preg_match('/^(\+?255|0)(7[0-9]{8})$/', $phone)) {
+        // check if phone number falls in options [0xxxxxxxxx, 255xxxxxxxxx, +255xxxxxxxxx] second x can be 6 or 7
+        if (!preg_match('/^(\+?255|0)(6|7)\d{8}$/', $phone)) {
             throw new RegistrationException($this->l10n->t('The phone number you entered is not valid or is not supported. Try 0xxxxxxxxx or +255xxxxxxxxx or 255xxxxxxxxx'));
         }
 

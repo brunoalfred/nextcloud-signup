@@ -129,7 +129,7 @@ class RegistrationMapper extends QBMapper {
 	 * @param Registration $registration
 	 */
 	public function generateNewToken(Registration $registration): void {
-		$token = $this->random->generate(10, ISecureRandom::CHAR_HUMAN_READABLE);
+		$token = $this->random->generate(6, ISecureRandom::CHAR_DIGITS);
 		$registration->setToken($token);
 	}
 

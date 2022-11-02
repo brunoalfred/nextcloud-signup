@@ -85,11 +85,11 @@ class PhoneService
      */
     public function validatePhone(string $phone): void
     {
-        // if (!$this->mailer->validateMailAddress($email)) {
-        //     throw new RegistrationException($this->l10n->t('The email address you entered is not valid'));
-        // }
-
-        // custom logic to validate the phone number
+        // check if phone number falls in options [0xxxxxxxxx, 255xxxxxxxxx, +255xxxxxxxxx]
+        if (!preg_match('/^(\+?255|0)(7[0-9]{8})$/', $phone)) {
+            throw new RegistrationException($this->l10n->t('The phone number you entered is not valid'));
+        }
+        
     }
 
     /**

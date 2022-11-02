@@ -116,7 +116,15 @@ class RegisterController extends Controller
             // No registration in progress
             try {
                 $phone = trim($phone);
+
                 $this->registrationService->validatePhone($phone);
+                
+                if (preg_match('/^0[0-9]{9}$/', $phone)) {
+                    $phone = '255' . substr($phone, 1);
+                } elseif (preg_match('/^\+255[0-9]{9}$/', $phone)) {
+                    $phone = substr($phone, 1);
+                }
+
             } catch (RegistrationException $e) {
                 return $this->showPhoneForm($phone, $e->getMessage());
             }

@@ -49,7 +49,7 @@ class RegistrationLoginOption implements IAlternativeLogin
 
     public function getLabel(): string
     {
-        return $this->l->t('Sajili');
+        return $this->l->t('Register');
     }
 
     public function getLink(): string

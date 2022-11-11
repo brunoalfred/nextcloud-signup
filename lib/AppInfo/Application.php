@@ -8,7 +8,7 @@ namespace OCA\Twigacloudsignup\AppInfo;
 
 use OCA\Twigacloudsignup\Capabilities;
 use OCA\Twigacloudsignup\Listener\UserEnabledListener;
-use OCA\Twigacloudsignup\RegistrationLoginOption;
+// use OCA\Twigacloudsignup\RegistrationLoginOption;
 use OCP\User\Events\UserChangedEvent;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -26,7 +26,7 @@ class Application extends App implements IBootstrap
 
 	public function register(IRegistrationContext $context): void
 	{
-		$context->registerAlternativeLogin(RegistrationLoginOption::class);
+		// $context->registerAlternativeLogin(RegistrationLoginOption::class);
 		$context->registerEventListener(UserChangedEvent::class, UserEnabledListener::class);
 		$context->registerCapability(Capabilities::class);
 	}
